@@ -4,6 +4,27 @@ One job: route a later agent (or a phone reviewer) to the right shelf. The live 
 
 Form: **system map** of `index.html` + `assets/`, plus a **maintenance pipeline** (`01_triage` → `04_pr`). Product code is not moved here.
 
+## Inputs
+
+- Working (this run): the task (from chat or a change note)
+- Reference (every run): `../AGENTS.md` (already read on cold start)
+
+Do NOT load: every card under `map/`, stage `output/` from an old run, or `index.html` unless the next contract lists it.
+
+## Process
+
+1. Match the task to a Catalog row (or to the `AGENTS.md` route table).
+2. Open only that folder's `CONTEXT.md`.
+3. Stop. This file does not perform the change.
+
+## Outputs
+
+- The next path to open (spoken or written). No artifact unless you are adding a shelf from `_templates/`.
+
+## Human check
+
+A person can name the next folder from `AGENTS.md` plus this file, without opening a card.
+
 ## Universes
 
 | Universe | Meaning here |
@@ -20,15 +41,6 @@ Form: **system map** of `index.html` + `assets/`, plus a **maintenance pipeline*
 | Focus | `#focus` flip-card section | The missing `focus-bg.jpg` |
 | CTA | Hero buttons **or** `#contact` form — say which |
 | Contact | In-page form (no network) | Footer `mailto:hello@zspez.com` |
-
-## How to walk
-
-1. Task → row in `AGENTS.md`.
-2. Open that folder's `CONTEXT.md` only.
-3. Load only its Inputs. Write only its Outputs.
-4. Stop at Human check.
-
-Do NOT load: the whole of `icm/`, both `AGENTS.md` and this file as payload, or `index.html` unless the contract lists it.
 
 ## Catalog
 

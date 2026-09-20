@@ -9,7 +9,12 @@ git diff --name-only -- index.html assets
 # (empty)
 
 python3 -m http.server 8080
-# GET / returns the Zspez landing page
+curl -sS -o /dev/null -w "%{http_code} %{size_download}\n" http://127.0.0.1:8080/
+# 200 34610 — title still "Zspez — Technology For People"
+curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8080/assets/hero-101.png
+# 200
+curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8080/assets/hero-1.jpg
+# 404 — ghost src, documented on image-assets
 ```
 
 ## Walk test
