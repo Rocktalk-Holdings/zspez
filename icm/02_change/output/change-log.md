@@ -9,6 +9,9 @@
 - Hero slides point at `assets/hero-101.png` through `assets/hero-404.png`.
 - Focus ring is `2px solid #fd6d01` with `outline-offset: 3px`.
 - Copyright line is exactly `© 2026 Zspez LLC`.
+- Focus cards no longer show a HOVER label. A dim arrow appears on hover and focus.
+- At 360 the hero headline sits 36px under the header. Carousel dots sit below the frame, each with a 44px hit area.
+- `#services`, `#focus`, `#values`, and `#contact` use `scroll-margin-top: 72px`. The header background is solid `#141416` with a bottom border.
 - `scripts/check-no-purple` scans source and any build directory for purple and violet hues.
 - `scripts/check-landing` checks the copyright string, the ghost header, and a single filled hero CTA.
 

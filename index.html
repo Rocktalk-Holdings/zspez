@@ -74,8 +74,8 @@
 
   /* ---------- Nav ---------- */
   .nav {
-    background: var(--z-surface);
-    border-bottom: 1px solid var(--z-line);
+    background: #141416;
+    border-bottom: 1px solid rgba(255,255,255,.14);
     position: sticky; top: 0; z-index: 50;
   }
   .nav-inner {
@@ -122,6 +122,9 @@
     padding: clamp(72px, 11vw, 130px) 0 clamp(72px, 11vw, 120px);
     position: relative; overflow: hidden;
   }
+  @media (max-width: 480px) {
+    .hero { padding-top: 36px; }
+  }
   .hero-inner {
     display: grid; grid-template-columns: 1.2fr .8fr;
     gap: clamp(32px, 6vw, 80px); align-items: center;
@@ -154,6 +157,10 @@
     position: relative;
     width: 100%;
     max-width: 460px;
+  }
+  .carousel-frame {
+    position: relative;
+    width: 100%;
     aspect-ratio: 1 / 1;
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -175,14 +182,15 @@
     object-fit: cover;
   }
   .carousel-dots {
-    position: absolute;
-    bottom: 8px; left: 50%;
-    transform: translateX(-50%);
-    display: flex; gap: 0;
-    background: var(--z-bg);
-    border: 1px solid var(--z-line);
-    padding: 0 4px;
-    border-radius: 999px;
+    position: static;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-top: 4px;
+    background: transparent;
+    border: 0;
+    padding: 0;
   }
   .carousel-dots .dot {
     width: 44px; height: 44px;
@@ -208,6 +216,7 @@
 
   /* ---------- Section base ---------- */
   section { padding: clamp(64px, 9vw, 110px) 0; }
+  #services, #focus, #values, #contact { scroll-margin-top: 72px; }
   .section-head { max-width: 680px; margin: 0 auto 56px; text-align: center; }
   .section-head p { font-size: 1.08rem; }
 
@@ -302,11 +311,18 @@
     font-size: .75rem; font-weight: 700;
     color: var(--z-dim); letter-spacing: .12em;
   }
-  .flip-front .hint {
-    position: absolute; top: 18px; right: 22px;
-    font-size: .68rem; font-weight: 700;
-    color: var(--z-dim); letter-spacing: .12em;
+  .flip-front::after {
+    content: "";
+    position: absolute;
+    top: 22px; right: 24px;
+    width: 8px; height: 8px;
+    border-right: 1.5px solid var(--z-dim);
+    border-bottom: 1.5px solid var(--z-dim);
+    transform: rotate(-45deg);
+    opacity: 0;
   }
+  .flip:hover .flip-front::after,
+  .flip:focus-within .flip-front::after { opacity: 1; }
   .flip-front .vis {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -75%);
@@ -593,6 +609,7 @@
     </div>
     <div class="hero-visual" aria-label="Illustrations of devices">
       <div class="carousel" data-carousel>
+        <div class="carousel-frame">
         <div class="carousel-track">
           <div class="carousel-slide is-active">
             <img src="assets/hero-101.png" alt="Isometric illustration of a laptop on a stand." loading="eager" onerror="this.style.display='none'">
@@ -606,6 +623,7 @@
           <div class="carousel-slide">
             <img src="assets/hero-404.png" alt="Isometric illustration of a tablet." loading="lazy" onerror="this.style.display='none'">
           </div>
+        </div>
         </div>
         <div class="carousel-dots" role="tablist" aria-label="Carousel navigation">
           <button class="dot is-active" type="button" role="tab" aria-label="Slide 1"></button>
@@ -676,7 +694,6 @@
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <div class="num">01</div>
-            <div class="hint">HOVER</div>
             <div class="vis">
               <!-- Isometric: connected device + wifi waves -->
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -707,7 +724,6 @@
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <div class="num">02</div>
-            <div class="hint">HOVER</div>
             <div class="vis">
               <!-- Isometric: small operator at desk -->
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -742,7 +758,6 @@
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <div class="num">03</div>
-            <div class="hint">HOVER</div>
             <div class="vis">
               <!-- Isometric: heart / pulse on platform -->
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -773,7 +788,6 @@
         <div class="flip-inner">
           <div class="flip-face flip-front">
             <div class="num">04</div>
-            <div class="hint">HOVER</div>
             <div class="vis">
               <!-- Isometric: gears / workflow nodes -->
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

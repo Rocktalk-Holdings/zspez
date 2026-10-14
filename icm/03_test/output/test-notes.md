@@ -43,6 +43,24 @@ Focus ring on the primary CTA: `rgb(253, 109, 1) solid 2px`, offset `3px`.
 
 Earlier before/after shots from the purple pass are still in that folder.
 
+## Pass 3 — labels, spacing, dots, sticky header
+
+`scripts/check-no-purple` and `scripts/check-landing` both exit 0. Visible copy has no HOVER, lorem, TODO, or placeholder text.
+
+At 360 the gap from the header bottom to the hero headline is 36px. Carousel dots sit below the frame (image bottom 993, dot top 997) and each hit target is 44×44. Header background is `rgb(20, 20, 22)` with a 1px solid bottom border.
+
+Hash scroll to `#focus` at 360, with smooth scroll turned off so the shot is the settled viewport: `scrollY` 2503, section top 72, header bottom 73, first card top 444. The heading and the card clear the header. The screenshot is 360×800, the viewport, not a stitched full page.
+
+Hover on the first Focus card shows the corner arrow (`::after` opacity 1). The other cards have no HOVER label.
+
+Screenshots:
+
+- `/opt/cursor/artifacts/zspez-pass3-360.png`
+- `/opt/cursor/artifacts/zspez-pass3-1440.png`
+- `/opt/cursor/artifacts/zspez-pass3-360-hero.png`
+- `/opt/cursor/artifacts/zspez-pass3-360-focus-hover.png`
+- `/opt/cursor/artifacts/zspez-pass3-360-header-scroll.png`
+
 ## Baseline
 
 Focus background still requests `assets/focus-bg.jpg`, which is not in git. The contact `onsubmit` handler still throws `Unexpected identifier 'll'` on the apostrophe. That string is unchanged from `main`.

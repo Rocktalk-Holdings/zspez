@@ -6,6 +6,7 @@
 - The hero contains one filled orange CTA (`.btn-primary`).
 - The contact submit is the only other filled orange control, and it lives
   in `#contact`, so the first view (header + hero) has a single filled CTA.
+- Visible copy has no placeholder text: HOVER, lorem, TODO, or placeholder.
 """
 
 from __future__ import annotations
@@ -32,6 +33,14 @@ def css_block(html: str, selector: str) -> str:
     if not match:
         return ""
     return match.group(1)
+
+
+def visible_text(html: str) -> str:
+    text = re.sub(r"<script\b[^>]*>.*?</script>", " ", html, flags=re.I | re.S)
+    text = re.sub(r"<style\b[^>]*>.*?</style>", " ", text, flags=re.I | re.S)
+    text = re.sub(r"<!--.*?-->", " ", text, flags=re.S)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return text
 
 
 def slice_between(html: str, start: str, end: str) -> str:
@@ -90,6 +99,11 @@ def main() -> int:
     focus = css_block(html, ":focus-visible")
     if "2px solid #fd6d01" not in focus or "outline-offset: 3px" not in focus:
         failures.append("focus ring is not 2px #fd6d01 with a 3px offset")
+
+    shown = visible_text(html)
+    for word in ("HOVER", "lorem", "TODO", "placeholder"):
+        if re.search(rf"(?i)\b{word}\b", shown):
+            failures.append(f"visible placeholder text: {word}")
 
     if failures:
         print(f"violations: {len(failures)}")
