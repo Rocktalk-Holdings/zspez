@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" role="img">
+  <title>Abstract dashboard on a desktop display</title>
+  <rect width="800" height="800" fill="#0b0b0c"/>
+  <rect x="372" y="568" width="56" height="64" rx="8" fill="#1b1b1e"/>
+  <rect x="292" y="628" width="216" height="18" rx="9" fill="#232327"/>
+  <rect x="64" y="86" width="672" height="482" rx="28" fill="#141416" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+  <rect x="88" y="110" width="624" height="434" rx="16" fill="#0b0b0c"/>
+  <rect x="112" y="134" width="160" height="14" rx="7" fill="#e4e4e8"/>
+  <rect x="560" y="128" width="128" height="28" rx="14" fill="#fd6d01"/>
+  <rect x="112" y="176" width="184" height="110" rx="14" fill="#141416" stroke="rgba(255,255,255,.10)"/>
+  <rect x="132" y="196" width="72" height="10" rx="5" fill="#9e9e9e"/>
+  <rect x="132" y="218" width="96" height="28" rx="8" fill="#fd6d01"/>
+  <rect x="132" y="258" width="120" height="8" rx="4" fill="#232327"/>
+  <rect x="312" y="176" width="184" height="110" rx="14" fill="#141416" stroke="rgba(255,255,255,.10)"/>
+  <rect x="332" y="196" width="72" height="10" rx="5" fill="#9e9e9e"/>
+  <rect x="332" y="218" width="96" height="28" rx="8" fill="#232327"/>
+  <rect x="332" y="258" width="120" height="8" rx="4" fill="#232327"/>
+  <rect x="512" y="176" width="176" height="110" rx="14" fill="#141416" stroke="rgba(255,255,255,.10)"/>
+  <rect x="532" y="196" width="72" height="10" rx="5" fill="#9e9e9e"/>
+  <rect x="532" y="218" width="96" height="28" rx="8" fill="#232327"/>
+  <rect x="532" y="258" width="120" height="8" rx="4" fill="#232327"/>
+  <rect x="112" y="306" width="576" height="210" rx="14" fill="#141416" stroke="rgba(255,255,255,.10)"/>
+  <rect x="136" y="328" width="120" height="12" rx="6" fill="#e4e4e8"/>
+  <path d="M148 470 L230 430 L312 448 L394 360 L476 392 L558 300 L640 332" fill="none" stroke="#fd6d01" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M148 470 L230 430 L312 448 L394 360 L476 392 L558 300 L640 332 V486 H148 Z" fill="rgba(253,109,1,.13)"/>
+  <line x1="136" y1="486" x2="664" y2="486" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+</svg>

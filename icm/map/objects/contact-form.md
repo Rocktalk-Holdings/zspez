@@ -21,7 +21,7 @@ The page has no backend. The visible "thanks" state is the whole product. Real m
 - Section `#contact` `index.html:837-848`
 - `required` email input `#email`
 - `onsubmit` `preventDefault`, then set button text to `Thanks — we'll be in touch` and `disabled=true` (`index.html:842`)
-- Footer mail: `mailto:hello@zspez.com` `index.html:867` — **looks-like-but-is-not** this form
+- Footer mail: `mailto:build@zspez.ai` — **looks-like-but-is-not** this form
 
 Ghost: any POST, inbox, or CRM. There is no action URL.
 

@@ -1,6 +1,6 @@
 ---
 type: change-note
-status: approved
+status: proceed
 universe: live
 ---
 
@@ -8,7 +8,11 @@ universe: live
 
 ## Request
 
-Fix the off-brand purple on the Zspez landing page. The brand is orange on black. Replace every purple with the live zspez.ai tokens (`--z-bg` through `--z-ok`). Use `--z-acc` for CTAs, links, focus, and highlights, and `--z-acc-ink` for text on orange fills. Add no other colors. Keep text at WCAG AA and focus rings at 3:1. Add `scripts/check-no-purple`, run it, and screenshot the built page at 360, 393, and 1440.
+Replace every hello@zspez.com on the landing page with build@zspez.ai, covering mailto links, visible text, meta tags, form handlers, and JS. Add a check to scripts/check-landing that fails on any zspez.com email address and requires build@zspez.ai.
+
+Drew approved replacing hero-101 through hero-404. Draw new original hero graphics in the zspez.ai tokens, delete the old files, record source and license in assets/ASSETS.md, and fail the landing check if those old names are referenced or an asset is missing from the manifest.
+
+Open a new draft PR from latest main. Do not merge.
 
 ## Universe
 
@@ -16,25 +20,21 @@ live
 
 ## Surfaces
 
-- `index.html` — `:root` tokens, hover and focus, SVG fills, `theme-color`
-- `scripts/check-no-purple` — hue scan of source and publishable output
-- `icm/_shared/brand.md` — token pointer
-- `icm/map/objects/landing-page.md` — token citation
-- `icm/map/processes/serve-and-browse.md` — host found while checking deploy
+- `index.html` — footer mailto and the four hero `src` values
+- `assets/hero-laptop.svg`, `hero-monitor.svg`, `hero-phone.svg`, `hero-tablet.svg` — new original graphics
+- `assets/ASSETS.md` — source and license for every file in `assets/`
+- `scripts/check-landing` — inbox rule, old hero names, asset manifest
+- `icm/map/objects/contact-form.md`, `icm/map/objects/image-assets.md`, `icm/CONTEXT.md`, `icm/map/effects/CONTEXT.md`, `icm/_shared/verify-checklist.md` — citations of the inbox and the hero files
 
 ## Hits / Does not hit
 
-- **Hits:** `:root` tokens and every component that used them (landing page). Host note on serve-and-browse.
-- **Does not hit:** image bytes, `src=` paths, form backend, carousel timer, copy, legal name, address, email.
+- **Hits:** footer mailto, landing-page footer copy, contact-form's "looks like but is not" mail line
+- **Does not hit:** form POST (still none), hero copy, images, tokens, street address, copyright
 
 ## Verify
 
-`scripts/check-no-purple`. Playwright on `http://127.0.0.1:8080/` at 360, 393, and 1440, before and after. Text contrast and focus-ring contrast on the built page.
-
-## Follow-up on the same branch
-
-Header "Get in touch" is a ghost (`#6d6d71` border, `#e6e6e6` text). Nav links are `#e6e6e6`. Footer links and the email are `#9e9e9e`. Hero frames use the PNG files. Copyright line is exactly `© 2026 Zspez LLC`.
+`scripts/check-no-purple` and `scripts/check-landing`. Open `http://127.0.0.1:8080/`. Confirm the mailto, no horizontal scroll at 320 and 360, axe clean, screenshots of the 1440 page and the 360 contact and footer.
 
 ## Human gate
 
-Phone review: one filled orange button in the first view, hero frame visible, copyright line exact, address and email unchanged. Do not merge until that read.
+The only new sentence is `build@zspez.ai`. No folder move, no form backend. Draft PR, do not merge.

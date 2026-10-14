@@ -40,7 +40,7 @@ A person can name the next folder from `AGENTS.md` plus this file, without openi
 | Hero | Hero section + carousel (`index.html` ~L567) | The PNG files in `assets/` (different names) |
 | Focus | `#focus` flip-card section | The background photo file |
 | CTA | Hero buttons **or** `#contact` form — say which |
-| Contact | In-page form (no network) | Footer `mailto:hello@zspez.com` |
+| Contact | In-page form (no network) | Footer `mailto:build@zspez.ai` |
 
 ## Catalog
 

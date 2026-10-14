@@ -7,6 +7,9 @@
 - The contact submit is the only other filled orange control, and it lives
   in `#contact`, so the first view (header + hero) has a single filled CTA.
 - Visible copy has no placeholder text: HOVER, lorem, TODO, or placeholder.
+- The only public inbox is build@zspez.ai. Any zspez.com email fails.
+- The old hero-101 … hero-404 files are not referenced, and every file in
+  assets/ is named in assets/ASSETS.md.
 """
 
 from __future__ import annotations
@@ -16,6 +19,8 @@ import re
 import sys
 
 COPYRIGHT = "© 2026 Zspez LLC"
+INBOX = "build@zspez.ai"
+OLD_HEROES = ("hero-101", "hero-202", "hero-303", "hero-404")
 
 
 def repo_root() -> str:
@@ -105,6 +110,36 @@ def main() -> int:
         if re.search(rf"(?i)\b{word}\b", shown):
             failures.append(f"visible placeholder text: {word}")
 
+    if re.search(r"(?i)[\w.+-]+@zspez\.com\b", html):
+        failures.append("landing page still has a zspez.com email address")
+    if f"mailto:{INBOX}" not in html:
+        failures.append(f"missing mailto:{INBOX}")
+    if INBOX not in shown:
+        failures.append(f"visible text is missing {INBOX}")
+
+    for name in OLD_HEROES:
+        if name in html:
+            failures.append(f"landing page still references {name}")
+
+    assets_dir = os.path.join(root, "assets")
+    manifest_path = os.path.join(assets_dir, "ASSETS.md")
+    if not os.path.isfile(manifest_path):
+        failures.append("assets/ASSETS.md is missing")
+        manifest = ""
+    else:
+        with open(manifest_path, encoding="utf-8") as handle:
+            manifest = handle.read()
+    if os.path.isdir(assets_dir):
+        for entry in sorted(os.listdir(assets_dir)):
+            path = os.path.join(assets_dir, entry)
+            if not os.path.isfile(path) or entry == "ASSETS.md":
+                continue
+            if entry not in manifest:
+                failures.append(f"{entry} is missing from assets/ASSETS.md")
+            for name in OLD_HEROES:
+                if name in entry:
+                    failures.append(f"old hero file still present: {entry}")
+
     if failures:
         print(f"violations: {len(failures)}")
         for item in failures:
@@ -114,6 +149,7 @@ def main() -> int:
     print(f"copyright: {COPYRIGHT}")
     print("filled CTA in header+hero: 1 (.btn-primary)")
     print("filled CTA in #contact: 1 (submit, outside the first view)")
+    print(f"inbox: {INBOX}")
     return 0
 
 

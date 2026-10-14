@@ -1,9 +1,11 @@
 # PR draft
 
-**Title:** Replace off-brand purple with Zspez orange on black
+**Title:** Point the public inbox at build@zspez.ai and replace the hero art
 
 **Base:** `main`
 
-**Files:** `index.html`, `scripts/check-no-purple`, token and host citations under `icm/`.
+**Branch:** `cursor/email-build-zspez-ai-4b31`
 
-**Ask the reviewer:** Orange on black, no purple left, address and email unchanged. Do not merge until you have looked.
+**Files:** `index.html`, `scripts/check-landing`, `assets/hero-*.svg`, `assets/ASSETS.md`, deleted `assets/hero-101.png` … `hero-404.png`, map citations.
+
+**Ask the reviewer:** The footer address is `build@zspez.ai`. The four hero frames are new original drawings. Do not merge until you have looked.

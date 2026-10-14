@@ -38,4 +38,4 @@ You opened two or fewer cards plus this index. If you needed more, the index row
 
 ## What points in from outside
 
-Nothing in this repo names a production host. Outside consumers to ask the owner about: any live domain, GitHub Pages, a clone-and-deploy script, and inboxes that expect `hello@zspez.com`. Those break silently — record them on the card they land on when you learn them.
+Nothing in this repo names a production host. Outside consumers to ask the owner about: any live domain, GitHub Pages, a clone-and-deploy script, and inboxes that still expect the old hello address. The page inbox is `build@zspez.ai`. Those break silently — record them on the card they land on when you learn them.
