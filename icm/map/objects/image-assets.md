@@ -8,9 +8,9 @@ commit: 1023111
 entity: assets/
 ---
 
-# Image assets = `assets/*.png` (HTML still says `.jpg`)
+# Image assets = `assets/*.png`
 
-Photos that should fill the hero carousel and the focus background. Files on disk and `src=` strings do not match.
+Hero carousel `src` values point at the PNG files in git. The focus background still names a JPG that is not in git.
 
 ## Why this shape
 
@@ -18,13 +18,13 @@ The page is static. Images are just files next to `index.html`. The 2026-09-04 c
 
 ## Shape
 
-| HTML `src` (ghost) | File in git (live) |
+| HTML `src` | File in git |
 |---|---|
-| `assets/hero-1.jpg` `index.html:581` | `assets/hero-101.png` |
-| `assets/hero-2.jpg` `index.html:584` | `assets/hero-202.png` |
-| `assets/hero-3.jpg` `index.html:587` | `assets/hero-303.png` |
-| `assets/hero-4.jpg` `index.html:590` | `assets/hero-404.png` |
-| `assets/focus-bg.jpg` `index.html:647` | `assets/focus-bg.png` |
+| `assets/hero-101.png` | `assets/hero-101.png` |
+| `assets/hero-202.png` | `assets/hero-202.png` |
+| `assets/hero-303.png` | `assets/hero-303.png` |
+| `assets/hero-404.png` | `assets/hero-404.png` |
+| `assets/focus-bg.jpg` (ghost) | `assets/focus-bg.png` |
 
 Leftover: `onerror="this.style.display='none'"` on those `<img>` tags.
 

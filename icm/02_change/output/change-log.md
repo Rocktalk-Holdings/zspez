@@ -2,16 +2,20 @@
 
 ## Edited
 
-- `index.html` `:root` now holds only the `--z-*` brand tokens. CTAs, links, focus rings, selection, and highlights use `--z-acc`. Text on orange fills uses `--z-acc-ink`.
-- Surfaces that sat behind orange text moved onto `--z-bg`, `--z-surface`, `--z-surface-2`, and `--z-tile` so the orange meets WCAG AA. No color outside the token list was added.
-- Inline SVG diagrams use those same tokens. `theme-color` is `#0b0b0c` (`--z-bg`).
-- `scripts/check-no-purple` scans source and, when present, `dist`, `build`, `out`, `_site`, `public`, and `site`. This repo has no build directory; the static root is the publishable output.
-- Token and host citations: `icm/_shared/brand.md`, `icm/map/objects/landing-page.md`, `icm/map/processes/serve-and-browse.md`.
+- `index.html` `:root` holds the `--z-*` brand tokens. Filled CTAs, focus rings, selection, and small accents use `--z-acc` (`#fd6d01`). Text on orange fills uses `--z-acc-ink`.
+- Header "Get in touch" is a ghost control: transparent fill, `#6d6d71` border, `#e6e6e6` text. Orange only on hover and when that section is current. The hero "Start a conversation" is the only filled orange CTA in the first view.
+- Nav links are `#e6e6e6`. Footer links and the email are `#9e9e9e`. Both turn `#fd6d01` on hover and on the current section.
+- Hero and Values orange glow blobs are removed.
+- Hero slides point at `assets/hero-101.png` through `assets/hero-404.png`.
+- Focus ring is `2px solid #fd6d01` with `outline-offset: 3px`.
+- Copyright line is exactly `© 2026 Zspez LLC`.
+- `scripts/check-no-purple` scans source and any build directory for purple and violet hues.
+- `scripts/check-landing` checks the copyright string, the ghost header, and a single filled hero CTA.
 
 ## Refused
 
 - Did not move `index.html` or `assets/`.
-- Did not retarget image `src` or delete `onerror`.
+- Did not delete `onerror`.
 - Did not add a form backend or change the contact handler.
-- Did not import the zspez.ai mark SVG. That file uses oranges and blues outside this token list.
-- Did not add a package manifest or a second catalog.
+- Did not add a color for the eyebrow or subtitle. Measured pairs already clear 4.5:1.
+- Did not retarget `assets/focus-bg.jpg`. That file is still absent.

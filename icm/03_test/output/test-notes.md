@@ -1,42 +1,48 @@
 # Test notes — orange on black
 
-Viewport: Playwright Chromium, `prefers-reduced-motion: reduce`, full page at 360, 393, and 1440. Page opened at `http://127.0.0.1:8080/` (`python3 -m http.server 8080` from the repo root). There is no compile step; that URL is the built page.
+Viewport: Playwright Chromium, `prefers-reduced-motion: reduce`. Page opened at `http://127.0.0.1:8080/` (`python3 -m http.server 8080` from the repo root). There is no compile step.
 
 ## Commands
 
 ```bash
-python3 -m http.server 8080
 scripts/check-no-purple --self-test
 scripts/check-no-purple
+scripts/check-landing
 ```
 
-Checker: self-test ok. Scan found `index.html` only, no `dist`/`build`/`out`/`_site`/`public`/`site`, `violations: 0`, exit 0.
+Both checks exit 0. Purple scan: `violations: 0`. Landing check: copyright `© 2026 Zspez LLC`, one `.btn-primary` in the hero, header control is a ghost.
+
+## Contrast (orange on tinted fills)
+
+Text stayed `#fd6d01`. No lighter fill and no `#ff8a33`.
+
+| Surface | Ratio |
+|---|---|
+| Services eyebrow on the 13% orange wash over `#141416` | 5.45:1 |
+| Focus eyebrow on that wash over `#0b0b0c` | 5.97:1 |
+| Values eyebrow on that wash over `#1b1b1e` | 5.04:1 |
+| Contact eyebrow on that wash over `#141416` | 5.45:1 |
+| Card subtitle on `#232327` | 5.49:1 |
+
+## First view, buttons, illustrations
+
+Filled orange control in the first 900px-tall view: only "Start a conversation", at 360, 393, and 1440.
+
+Buttons (including carousel dots' hit area) are at least 44×44 CSS pixels. The header ghost is 44px tall. At 360 the four focus-card SVGs are about 217×174 and sit inside the cards.
+
+Focus ring on the primary CTA: `rgb(253, 109, 1) solid 2px`, offset `3px`.
 
 ## Screenshots
 
-Before (purple on a light page) and after (orange on black):
+- `/opt/cursor/artifacts/zspez-craft-360.png`
+- `/opt/cursor/artifacts/zspez-craft-393.png`
+- `/opt/cursor/artifacts/zspez-craft-1440.png`
+- `/opt/cursor/artifacts/zspez-craft-360-hero.png`
+- `/opt/cursor/artifacts/zspez-craft-360-focus.png`
+- `/opt/cursor/artifacts/zspez-craft-360-focus-ring.png`
 
-- `/opt/cursor/artifacts/zspez-before-360.png`
-- `/opt/cursor/artifacts/zspez-before-393.png`
-- `/opt/cursor/artifacts/zspez-before-1440.png`
-- `/opt/cursor/artifacts/zspez-after-360.png`
-- `/opt/cursor/artifacts/zspez-after-393.png`
-- `/opt/cursor/artifacts/zspez-after-1440.png`
-- `/opt/cursor/artifacts/zspez-after-1440-focus-cta.png` (keyboard-style focus on the primary CTA)
+Earlier before/after shots from the purple pass are still in that folder.
 
-## Checklist rows this change can hit
+## Baseline
 
-| Row | Result |
-|---|---|
-| Page opens | Pass — HTTP 200 |
-| Tokens / sections | Pass — full-page shots at 360, 393, 1440. Hero, method, focus, values, contact, footer all use the dark tokens. Narrow widths stack cards; nav CTA stays. |
-| Text contrast | Pass — sampled pairs 5.45:1 to 19.67:1 (AA is 4.5:1). Lowest is the orange eyebrow on the soft orange wash. |
-| Focus rings | Pass — Tab order shows `3px solid rgb(253, 109, 1)` with `outline-offset: 3px`. Orange against `#0b0b0c` is 6.90:1 (need 3:1). |
-| Rendered purple | Pass — every computed color on the page was outside the purple hue band. `theme-color` is `#0b0b0c`. Selection is orange fill with `#140700` text. |
-| Invalid email border | Pass — `user-invalid` border is `rgb(255, 138, 122)` (`--z-err`). Button label stays `Send`. |
-| Images | Baseline unchanged. HTML still names missing JPGs; `onerror` still hides them. |
-| Address, email, legal name | Unchanged |
-
-## Failures
-
-None in this diff. The contact `onsubmit` handler still throws `Unexpected identifier 'll'` because of the apostrophe escape. That string is unchanged from `main`. Valid submit does not reach the thanks label. Not introduced here.
+Focus background still requests `assets/focus-bg.jpg`, which is not in git. The contact `onsubmit` handler still throws `Unexpected identifier 'll'` on the apostrophe. That string is unchanged from `main`.

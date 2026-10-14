@@ -31,6 +31,10 @@ live
 
 `scripts/check-no-purple`. Playwright on `http://127.0.0.1:8080/` at 360, 393, and 1440, before and after. Text contrast and focus-ring contrast on the built page.
 
+## Follow-up on the same branch
+
+Header "Get in touch" is a ghost (`#6d6d71` border, `#e6e6e6` text). Nav links are `#e6e6e6`. Footer links and the email are `#9e9e9e`. Hero frames use the PNG files. Copyright line is exactly `© 2026 Zspez LLC`.
+
 ## Human gate
 
-Phone review: orange on black, no purple, address and email unchanged, photos still the known missing-JPG baseline. Do not merge until that read.
+Phone review: one filled orange button in the first view, hero frame visible, copyright line exact, address and email unchanged. Do not merge until that read.

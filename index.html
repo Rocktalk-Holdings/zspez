@@ -35,7 +35,7 @@
   html { scroll-behavior: smooth; color-scheme: dark; }
   ::selection { background: var(--z-acc); color: var(--z-acc-ink); }
   :focus-visible {
-    outline: 3px solid var(--z-acc);
+    outline: 2px solid #fd6d01;
     outline-offset: 3px;
   }
   body {
@@ -50,8 +50,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   img, svg { display: block; max-width: 100%; height: auto; }
-  a { color: var(--z-acc); text-decoration: none; }
-  a:hover { color: var(--z-acc-hover); text-decoration: underline; }
+  a { color: #e6e6e6; text-decoration: none; }
+  a:hover { color: var(--z-acc); text-decoration: underline; }
   h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 .4em; }
   h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; }
   h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; }
@@ -93,27 +93,34 @@
     display: grid; place-items: center; color: var(--z-acc-ink); font-weight: 800; font-size: .85rem;
   }
   .nav-links { display: flex; gap: 28px; align-items: center; }
-  .nav-links a { color: var(--z-acc); font-size: .95rem; }
-  .nav-links a:hover { color: var(--z-acc-hover); text-decoration: none; }
-  .nav-cta {
-    background: var(--z-acc); color: var(--z-acc-ink) !important;
-    padding: 9px 16px; border-radius: 10px; font-weight: 600;
+  .nav-links a { color: #e6e6e6; font-size: .95rem; }
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] { color: var(--z-acc); text-decoration: none; }
+  .nav-links a.nav-cta {
+    background: transparent;
+    color: #e6e6e6;
+    border: 1px solid #6d6d71;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font-weight: 600;
     font-size: .9rem;
+    display: inline-flex;
+    align-items: center;
   }
-  .nav-cta:hover { background: var(--z-acc-hover); color: var(--z-acc-ink) !important; text-decoration: none; }
+  .nav-links a.nav-cta:hover,
+  .nav-links a.nav-cta[aria-current="page"] {
+    background: transparent;
+    color: var(--z-acc);
+    border-color: var(--z-acc);
+    text-decoration: none;
+  }
   @media (max-width: 720px) { .nav-links a:not(.nav-cta) { display: none; } }
 
   /* ---------- Hero ---------- */
   .hero {
     padding: clamp(72px, 11vw, 130px) 0 clamp(72px, 11vw, 120px);
     position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: ""; position: absolute; inset: 0;
-    background:
-      radial-gradient(55% 45% at 85% 5%, var(--z-acc-soft) 0%, transparent 60%),
-      radial-gradient(35% 40% at 0% 35%, var(--z-acc-soft) 0%, transparent 60%);
-    z-index: -1;
   }
   .hero-inner {
     display: grid; grid-template-columns: 1.2fr .8fr;
@@ -128,6 +135,7 @@
     padding: 14px 24px; border-radius: 12px;
     font-weight: 600; font-size: 1rem; cursor: pointer;
     border: 1px solid transparent;
+    min-height: 44px;
     transition: background .15s ease, color .15s ease, border-color .15s ease;
   }
   .btn-primary { background: var(--z-acc); color: var(--z-acc-ink); }
@@ -168,30 +176,32 @@
   }
   .carousel-dots {
     position: absolute;
-    bottom: 18px; left: 50%;
+    bottom: 8px; left: 50%;
     transform: translateX(-50%);
-    display: flex; gap: 8px;
+    display: flex; gap: 0;
     background: var(--z-bg);
     border: 1px solid var(--z-line);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 8px 12px;
+    padding: 0 4px;
     border-radius: 999px;
   }
   .carousel-dots .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
+    width: 44px; height: 44px;
+    border-radius: 0;
     border: 0;
     padding: 0;
-    background: var(--z-dim);
+    background: transparent;
     cursor: pointer;
-    transition: background .2s ease, transform .2s ease;
+    display: grid;
+    place-items: center;
   }
-  .carousel-dots .dot.is-active {
-    background: var(--z-acc);
-    transform: scale(1.25);
+  .carousel-dots .dot::after {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--z-dim);
   }
-  .carousel-dots .dot:hover { background: var(--z-acc-hover); }
+  .carousel-dots .dot.is-active::after { background: var(--z-acc); }
+  .carousel-dots .dot:hover::after { background: var(--z-acc-hover); }
   @media (prefers-reduced-motion: reduce) {
     .carousel-slide { transition: none; }
   }
@@ -252,14 +262,6 @@
     width: 100%; height: 100%;
     object-fit: cover;
     filter: saturate(1.15) brightness(.92);
-  }
-  .focus-with-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(50% 40% at 50% 0%, var(--z-acc-soft) 0%, transparent 70%);
   }
   .focus-content { position: relative; z-index: 1; }
   .focus-grid {
@@ -327,7 +329,6 @@
   .flip:hover .flip-back,
   .flip:focus-within .flip-back {
     border-color: var(--z-acc);
-    box-shadow: 0 0 0 3px var(--z-acc);
   }
   .flip-back h3 {
     font-size: 1.05rem;
@@ -350,13 +351,6 @@
     border-radius: var(--radius-lg);
     padding: clamp(48px, 7vw, 88px);
     position: relative; overflow: hidden;
-  }
-  .values-wrap::before {
-    content: ""; position: absolute; inset: 0;
-    background:
-      radial-gradient(60% 50% at 100% 0%, var(--z-acc-soft) 0%, transparent 60%),
-      radial-gradient(40% 50% at 0% 100%, var(--z-acc-soft) 0%, transparent 60%);
-    pointer-events: none;
   }
   .values-head {
     position: relative;
@@ -425,12 +419,13 @@
     background: var(--z-bg);
   }
   .cta-form input::placeholder { color: var(--z-dim); }
-  .cta-form input:focus-visible { outline: 3px solid var(--z-acc); outline-offset: 3px; }
+  .cta-form input:focus-visible { outline: 2px solid #fd6d01; outline-offset: 3px; }
   .cta-form input:user-invalid { border-color: var(--z-err); }
   .cta-form button {
     padding: 13px 22px; border-radius: 12px; border: 0;
     background: var(--z-acc); color: var(--z-acc-ink); font-weight: 600; font-size: 1rem;
     cursor: pointer;
+    min-height: 44px;
   }
   .cta-form button:hover { background: var(--z-acc-hover); color: var(--z-acc-ink); }
   .cta-form button:disabled { background: var(--z-acc); color: var(--z-acc-ink); opacity: 1; }
@@ -459,8 +454,9 @@
     font-size: .78rem; font-weight: 700; letter-spacing: .1em;
     text-transform: uppercase; color: var(--z-dim); margin: 0 0 8px;
   }
-  .foot-links a { color: var(--z-acc); }
-  .foot-links a:hover { color: var(--z-acc-hover); }
+  .foot-links a { color: #9e9e9e; }
+  .foot-links a:hover,
+  .foot-links a[aria-current="page"] { color: var(--z-acc); }
   .foot-bottom {
     grid-column: 1 / -1;
     border-top: 1px solid var(--z-line);
@@ -487,10 +483,15 @@
 </style>
 
 <script>
-  // Hero carousel — auto-rotates every 5s, click dots to navigate
+  // Hero carousel — auto-rotates every 5s, click dots to navigate.
+  // Current section marks the matching nav and footer link orange.
   (function () {
+    function boot() {
     const root = document.querySelector('[data-carousel]');
-    if (!root) return;
+    if (root) initCarousel(root);
+    initCurrent();
+    }
+    function initCarousel(root) {
     const slides = root.querySelectorAll('.carousel-slide');
     const dots = root.querySelectorAll('.carousel-dots .dot');
     const total = slides.length;
@@ -532,6 +533,32 @@
     });
 
     start();
+    }
+    function initCurrent() {
+      const links = document.querySelectorAll('.nav-links a[href^="#"], .foot-links a[href^="#"]');
+      const sections = [];
+      links.forEach((link) => {
+        const id = link.getAttribute('href').slice(1);
+        const section = id && document.getElementById(id);
+        if (section && !sections.includes(section)) sections.push(section);
+      });
+      function mark() {
+        const line = window.scrollY + 96;
+        let current = '';
+        sections.forEach((section) => {
+          if (section.offsetTop <= line) current = section.id;
+        });
+        links.forEach((link) => {
+          const on = current && link.getAttribute('href') === '#' + current;
+          if (on) link.setAttribute('aria-current', 'page');
+          else link.removeAttribute('aria-current');
+        });
+      }
+      mark();
+      window.addEventListener('scroll', mark, { passive: true });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
   })();
 </script>
 </head>
@@ -564,20 +591,20 @@
         <a href="#values" class="btn btn-ghost">How we operate</a>
       </div>
     </div>
-    <div class="hero-visual" aria-label="Photos of emerging technology in everyday use">
+    <div class="hero-visual" aria-label="Illustrations of devices">
       <div class="carousel" data-carousel>
         <div class="carousel-track">
           <div class="carousel-slide is-active">
-            <img src="assets/hero-1.jpg" alt="A diverse team reviewing an emerging technology product together in a modern office." loading="eager" onerror="this.style.display='none'">
+            <img src="assets/hero-101.png" alt="Isometric illustration of a laptop on a stand." loading="eager" onerror="this.style.display='none'">
           </div>
           <div class="carousel-slide">
-            <img src="assets/hero-2.jpg" alt="Hands holding a connected device in a home kitchen." loading="lazy" onerror="this.style.display='none'">
+            <img src="assets/hero-202.png" alt="Isometric illustration of a desktop monitor." loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="carousel-slide">
-            <img src="assets/hero-3.jpg" alt="A small business owner using software on a laptop in a workshop." loading="lazy" onerror="this.style.display='none'">
+            <img src="assets/hero-303.png" alt="Isometric illustration of a smartphone." loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="carousel-slide">
-            <img src="assets/hero-4.jpg" alt="A person using a health wearable in a calm home setting." loading="lazy" onerror="this.style.display='none'">
+            <img src="assets/hero-404.png" alt="Isometric illustration of a tablet." loading="lazy" onerror="this.style.display='none'">
           </div>
         </div>
         <div class="carousel-dots" role="tablist" aria-label="Carousel navigation">
@@ -853,7 +880,7 @@
       <a href="mailto:hello@zspez.com">hello@zspez.com</a>
     </nav>
     <div class="foot-bottom">
-      <span>© 2026 Zspez LLC. All rights reserved.</span>
+      <span>© 2026 Zspez LLC</span>
       <span>Overland Park, Kansas</span>
     </div>
   </div>
