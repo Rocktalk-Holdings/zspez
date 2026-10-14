@@ -3,48 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0c">
 <title>Zspez — Technology For People</title>
 <meta name="description" content="Zspez brings emerging technology into daily life through user education, marketing and sales, and account management.">
 <style>
   :root {
-    --bg: #f7f8fb;
-    --bg-alt: #ffffff;
-    --ink: #14172b;
-    --ink-soft: #4a4f6b;
-    --ink-mute: #7a7f99;
-    --line: #e6e8f0;
-    --accent: #5e3fff;
-    --accent-soft: #efebff;
-    --accent-deep: #2a1a99;
+    --z-bg: #0b0b0c;
+    --z-surface: #141416;
+    --z-surface-2: #1b1b1e;
+    --z-tile: #232327;
+    --z-line: rgba(255,255,255,.10);
+    --z-line-2: rgba(255,255,255,.14);
+    --z-ink: #ffffff;
+    --z-ink-2: #e4e4e8;
+    --z-body: #b4b4bb;
+    --z-dim: #9e9e9e;
+    --z-acc: #fd6d01;
+    --z-acc-ink: #140700;
+    --z-acc-soft: rgba(253,109,1,.13);
+    --z-acc-hover: #ffb27a;
+    --z-err: #ff8a7a;
+    --z-ok: #7fd8a6;
     --radius: 14px;
     --radius-lg: 22px;
-    --shadow-sm: 0 1px 2px rgba(20,23,43,.04), 0 4px 14px rgba(20,23,43,.04);
-    --shadow-md: 0 6px 24px rgba(20,23,43,.06), 0 1px 3px rgba(20,23,43,.04);
     --max: 1120px;
     --pad: 24px;
     --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; color-scheme: dark; }
+  ::selection { background: var(--z-acc); color: var(--z-acc-ink); }
+  :focus-visible {
+    outline: 3px solid var(--z-acc);
+    outline-offset: 3px;
+  }
   body {
     margin: 0;
     font-family: var(--sans);
     font-size: 17px;
     line-height: 1.6;
-    color: var(--ink);
-    background: var(--bg);
+    color: var(--z-ink);
+    background: var(--z-bg);
+    accent-color: var(--z-acc);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   img, svg { display: block; max-width: 100%; height: auto; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  a { color: var(--z-acc); text-decoration: none; }
+  a:hover { color: var(--z-acc-hover); text-decoration: underline; }
   h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 .4em; }
   h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; }
   h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; }
   h3 { font-size: 1.1rem; font-weight: 600; }
-  p { margin: 0 0 1em; color: var(--ink-soft); }
+  p { margin: 0 0 1em; color: var(--z-body); }
 
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
   .eyebrow {
@@ -53,8 +65,8 @@
     font-weight: 700;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-soft);
+    color: var(--z-acc);
+    background: var(--z-acc-soft);
     padding: 8px 16px;
     border-radius: 999px;
     margin-bottom: 28px;
@@ -62,10 +74,8 @@
 
   /* ---------- Nav ---------- */
   .nav {
-    background: rgba(255,255,255,.85);
-    backdrop-filter: saturate(180%) blur(10px);
-    -webkit-backdrop-filter: saturate(180%) blur(10px);
-    border-bottom: 1px solid var(--line);
+    background: var(--z-surface);
+    border-bottom: 1px solid var(--z-line);
     position: sticky; top: 0; z-index: 50;
   }
   .nav-inner {
@@ -74,23 +84,23 @@
   }
   .brand {
     display: flex; align-items: center; gap: 10px;
-    font-weight: 700; font-size: 1.15rem; color: var(--ink);
+    font-weight: 700; font-size: 1.15rem; color: var(--z-ink);
     letter-spacing: -.01em;
   }
   .brand-mark {
     width: 28px; height: 28px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
-    display: grid; place-items: center; color: #fff; font-weight: 800; font-size: .85rem;
+    background: var(--z-acc);
+    display: grid; place-items: center; color: var(--z-acc-ink); font-weight: 800; font-size: .85rem;
   }
   .nav-links { display: flex; gap: 28px; align-items: center; }
-  .nav-links a { color: var(--ink-soft); font-size: .95rem; }
-  .nav-links a:hover { color: var(--ink); text-decoration: none; }
+  .nav-links a { color: var(--z-acc); font-size: .95rem; }
+  .nav-links a:hover { color: var(--z-acc-hover); text-decoration: none; }
   .nav-cta {
-    background: var(--ink); color: #fff !important;
+    background: var(--z-acc); color: var(--z-acc-ink) !important;
     padding: 9px 16px; border-radius: 10px; font-weight: 600;
     font-size: .9rem;
   }
-  .nav-cta:hover { background: var(--accent); text-decoration: none; }
+  .nav-cta:hover { background: var(--z-acc-hover); color: var(--z-acc-ink) !important; text-decoration: none; }
   @media (max-width: 720px) { .nav-links a:not(.nav-cta) { display: none; } }
 
   /* ---------- Hero ---------- */
@@ -101,28 +111,29 @@
   .hero::before {
     content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(55% 45% at 85% 5%, var(--accent-soft) 0%, transparent 60%),
-      radial-gradient(35% 40% at 0% 35%, #eaf3ff 0%, transparent 60%);
+      radial-gradient(55% 45% at 85% 5%, var(--z-acc-soft) 0%, transparent 60%),
+      radial-gradient(35% 40% at 0% 35%, var(--z-acc-soft) 0%, transparent 60%);
     z-index: -1;
   }
   .hero-inner {
     display: grid; grid-template-columns: 1.2fr .8fr;
     gap: clamp(32px, 6vw, 80px); align-items: center;
   }
-  .hero h1 { color: var(--ink); margin-bottom: 24px; }
-  .hero h1 .accent { color: var(--accent); }
-  .hero p.lede { font-size: 1.2rem; max-width: 560px; color: var(--ink-soft); }
+  .hero h1 { color: var(--z-ink); margin-bottom: 24px; }
+  .hero h1 .accent { color: var(--z-acc); }
+  .hero p.lede { font-size: 1.2rem; max-width: 560px; color: var(--z-body); }
   .hero-ctas { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 14px 24px; border-radius: 12px;
     font-weight: 600; font-size: 1rem; cursor: pointer;
-    border: 1px solid transparent; transition: all .15s ease;
+    border: 1px solid transparent;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
   }
-  .btn-primary { background: var(--ink); color: #fff; }
-  .btn-primary:hover { background: var(--accent); text-decoration: none; }
-  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-  .btn-ghost:hover { background: #fff; border-color: var(--ink-mute); text-decoration: none; }
+  .btn-primary { background: var(--z-acc); color: var(--z-acc-ink); }
+  .btn-primary:hover { background: var(--z-acc-hover); color: var(--z-acc-ink); text-decoration: none; }
+  .btn-ghost { background: transparent; color: var(--z-ink); border-color: var(--z-dim); }
+  .btn-ghost:hover { background: var(--z-surface-2); border-color: var(--z-acc); color: var(--z-ink); text-decoration: none; }
 
   .hero-visual { display: grid; place-items: center; }
   @media (max-width: 860px) {
@@ -138,9 +149,8 @@
     aspect-ratio: 1 / 1;
     border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    background: #fff;
-    border: 1px solid var(--line);
+    background: var(--z-tile);
+    border: 1px solid var(--z-line);
   }
   .carousel-track {
     position: relative;
@@ -161,7 +171,8 @@
     bottom: 18px; left: 50%;
     transform: translateX(-50%);
     display: flex; gap: 8px;
-    background: rgba(20,23,43,.45);
+    background: var(--z-bg);
+    border: 1px solid var(--z-line);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 8px 12px;
@@ -172,15 +183,15 @@
     border-radius: 50%;
     border: 0;
     padding: 0;
-    background: rgba(255,255,255,.45);
+    background: var(--z-dim);
     cursor: pointer;
     transition: background .2s ease, transform .2s ease;
   }
   .carousel-dots .dot.is-active {
-    background: #fff;
+    background: var(--z-acc);
     transform: scale(1.25);
   }
-  .carousel-dots .dot:hover { background: rgba(255,255,255,.75); }
+  .carousel-dots .dot:hover { background: var(--z-acc-hover); }
   @media (prefers-reduced-motion: reduce) {
     .carousel-slide { transition: none; }
   }
@@ -191,36 +202,35 @@
   .section-head p { font-size: 1.08rem; }
 
   /* ---------- Services ---------- */
-  .services { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .services { background: var(--z-surface); border-top: 1px solid var(--z-line); border-bottom: 1px solid var(--z-line); }
   .cards {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
   }
   .card {
-    background: var(--bg);
-    border: 1px solid var(--line);
+    background: var(--z-tile);
+    border: 1px solid var(--z-line);
     border-radius: var(--radius);
     padding: 32px 28px;
     transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   }
   .card:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: #d8dcef;
+    border-color: var(--z-acc);
   }
   .card-icon {
     width: 52px; height: 52px;
-    background: var(--accent-soft);
+    background: var(--z-acc-soft);
     border-radius: 14px;
     display: grid; place-items: center;
-    color: var(--accent);
+    color: var(--z-acc);
     margin-bottom: 22px;
   }
-  .card h3 { color: var(--ink); margin-bottom: 6px; font-size: 1.3rem; }
+  .card h3 { color: var(--z-ink); margin-bottom: 6px; font-size: 1.3rem; }
   .card .subtitle {
     display: block;
     font-size: .85rem;
     font-weight: 500;
-    color: var(--accent);
+    color: var(--z-acc);
     letter-spacing: .02em;
     margin-bottom: 14px;
   }
@@ -243,22 +253,13 @@
     object-fit: cover;
     filter: saturate(1.15) brightness(.92);
   }
-  /* Color wash on top of the photo — warm + cool tone to contrast with purple cards */
   .focus-with-bg::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-      linear-gradient(180deg,
-        rgba(247,248,251,.55) 0%,
-        rgba(247,248,251,.35) 50%,
-        rgba(247,248,251,.55) 100%),
-      linear-gradient(135deg,
-        rgba(255, 180, 120, .25) 0%,
-        rgba(80, 200, 200, .25) 100%);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+      radial-gradient(50% 40% at 50% 0%, var(--z-acc-soft) 0%, transparent 70%);
   }
   .focus-content { position: relative; z-index: 1; }
   .focus-grid {
@@ -283,17 +284,12 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: var(--radius);
-    border: 1px solid rgba(255,255,255,.5);
+    border: 1px solid var(--z-line);
     overflow: hidden;
   }
   /* Glass effect — translucent + blur so the background photo shows through */
   .flip-front {
-    background: rgba(255, 255, 255, .55);
-    backdrop-filter: blur(14px) saturate(1.2);
-    -webkit-backdrop-filter: blur(14px) saturate(1.2);
-    box-shadow:
-      0 8px 32px rgba(20, 23, 43, .08),
-      inset 0 1px 0 rgba(255, 255, 255, .6);
+    background: var(--z-surface);
     display: flex; flex-direction: column; justify-content: flex-end;
     align-items: center;
     text-align: center;
@@ -302,12 +298,12 @@
   .flip-front .num {
     position: absolute; top: 18px; left: 22px;
     font-size: .75rem; font-weight: 700;
-    color: var(--ink-mute); letter-spacing: .12em;
+    color: var(--z-dim); letter-spacing: .12em;
   }
   .flip-front .hint {
     position: absolute; top: 18px; right: 22px;
     font-size: .68rem; font-weight: 700;
-    color: #aab0c4; letter-spacing: .12em;
+    color: var(--z-dim); letter-spacing: .12em;
   }
   .flip-front .vis {
     position: absolute; top: 50%; left: 50%;
@@ -324,22 +320,14 @@
   .flip-back {
     transform: rotateY(180deg);
     padding: 24px 22px;
-    background: rgba(255, 255, 255, .72);
-    backdrop-filter: blur(18px) saturate(1.3);
-    -webkit-backdrop-filter: blur(18px) saturate(1.3);
-    box-shadow:
-      0 12px 40px rgba(20, 23, 43, .12),
-      inset 0 1px 0 rgba(255, 255, 255, .7);
+    background: var(--z-tile);
     display: flex; flex-direction: column; justify-content: center;
     transition: border-color .2s ease, box-shadow .2s ease;
   }
   .flip:hover .flip-back,
   .flip:focus-within .flip-back {
-    border-color: var(--accent);
-    box-shadow:
-      0 0 0 3px var(--accent-soft),
-      0 12px 40px rgba(20, 23, 43, .15),
-      inset 0 1px 0 rgba(255, 255, 255, .7);
+    border-color: var(--z-acc);
+    box-shadow: 0 0 0 3px var(--z-acc);
   }
   .flip-back h3 {
     font-size: 1.05rem;
@@ -348,7 +336,7 @@
   .flip-back p {
     font-size: .95rem;
     margin: 0;
-    color: var(--ink-soft);
+    color: var(--z-body);
   }
   @media (max-width: 860px) { .focus-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 480px) { .focus-grid { grid-template-columns: 1fr; } }
@@ -356,8 +344,9 @@
   /* ---------- Values (dark panel) ---------- */
   .values { padding: clamp(64px, 9vw, 110px) 0; }
   .values-wrap {
-    background: var(--ink);
-    color: #fff;
+    background: var(--z-surface-2);
+    color: var(--z-ink);
+    border: 1px solid var(--z-line);
     border-radius: var(--radius-lg);
     padding: clamp(48px, 7vw, 88px);
     position: relative; overflow: hidden;
@@ -365,17 +354,16 @@
   .values-wrap::before {
     content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(60% 50% at 100% 0%, rgba(94,63,255,.25) 0%, transparent 60%),
-      radial-gradient(40% 50% at 0% 100%, rgba(94,63,255,.15) 0%, transparent 60%);
+      radial-gradient(60% 50% at 100% 0%, var(--z-acc-soft) 0%, transparent 60%),
+      radial-gradient(40% 50% at 0% 100%, var(--z-acc-soft) 0%, transparent 60%);
     pointer-events: none;
   }
   .values-head {
     position: relative;
     max-width: 720px; margin: 0 auto 56px; text-align: center;
   }
-  .values-head .eyebrow { background: rgba(255,255,255,.08); color: #c8c0ff; }
-  .values-head h2 { color: #fff; }
-  .values-head p { color: rgba(255,255,255,.78); font-size: 1.08rem; }
+  .values-head h2 { color: var(--z-ink); }
+  .values-head p { color: var(--z-body); font-size: 1.08rem; }
 
   .values-list {
     position: relative;
@@ -383,30 +371,30 @@
   }
   .value-item {
     position: relative;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.1);
+    background: var(--z-tile);
+    border: 1px solid var(--z-line);
     border-radius: var(--radius);
     padding: 28px 28px 28px 80px;
     transition: background .15s ease, border-color .15s ease, transform .15s ease;
   }
   .value-item:hover {
-    background: rgba(255,255,255,.07);
-    border-color: rgba(168,157,255,.4);
+    background: var(--z-surface);
+    border-color: var(--z-acc);
     transform: translateY(-2px);
   }
   .value-num {
     position: absolute; top: 26px; left: 26px;
     width: 36px; height: 36px;
-    background: var(--accent);
+    background: var(--z-acc);
     border-radius: 10px;
     display: grid; place-items: center;
-    color: #fff;
+    color: var(--z-acc-ink);
     font-weight: 700;
     font-size: .82rem;
     letter-spacing: .08em;
   }
-  .value-item h3 { color: #fff; margin-bottom: 8px; font-size: 1.2rem; }
-  .value-item p { color: rgba(255,255,255,.78); margin: 0; font-size: .98rem; }
+  .value-item h3 { color: var(--z-ink); margin-bottom: 8px; font-size: 1.2rem; }
+  .value-item p { color: var(--z-body); margin: 0; font-size: .98rem; }
 
   @media (max-width: 860px) { .values-list { grid-template-columns: 1fr; } }
   @media (max-width: 560px) {
@@ -419,11 +407,9 @@
   .cta {
     text-align: center;
     padding: clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px);
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.6);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    background: var(--z-surface);
+    border-top: 1px solid var(--z-line);
+    border-bottom: 1px solid var(--z-line);
   }
   .cta h2 { margin-bottom: 12px; }
   .cta p { max-width: 540px; margin: 0 auto 28px; font-size: 1.05rem; }
@@ -432,28 +418,31 @@
   }
   .cta-form input {
     flex: 1; padding: 13px 16px;
-    border: 1px solid var(--line);
+    border: 1px solid var(--z-dim);
     border-radius: 12px;
     font-family: inherit; font-size: 1rem;
-    color: var(--ink);
-    background: #fff;
+    color: var(--z-ink);
+    background: var(--z-bg);
   }
-  .cta-form input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .cta-form input::placeholder { color: var(--z-dim); }
+  .cta-form input:focus-visible { outline: 3px solid var(--z-acc); outline-offset: 3px; }
+  .cta-form input:user-invalid { border-color: var(--z-err); }
   .cta-form button {
     padding: 13px 22px; border-radius: 12px; border: 0;
-    background: var(--ink); color: #fff; font-weight: 600; font-size: 1rem;
+    background: var(--z-acc); color: var(--z-acc-ink); font-weight: 600; font-size: 1rem;
     cursor: pointer;
   }
-  .cta-form button:hover { background: var(--accent); }
-  .cta-note { color: var(--ink-mute); font-size: .88rem; margin-top: 16px; }
+  .cta-form button:hover { background: var(--z-acc-hover); color: var(--z-acc-ink); }
+  .cta-form button:disabled { background: var(--z-acc); color: var(--z-acc-ink); opacity: 1; }
+  .cta-note { color: var(--z-dim); font-size: .88rem; margin-top: 16px; }
   @media (max-width: 560px) { .cta-form { flex-direction: column; } }
 
   /* ---------- Footer ---------- */
   footer {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--z-line);
     padding: 48px 0;
-    background: var(--bg-alt);
-    color: var(--ink-mute);
+    background: var(--z-bg);
+    color: var(--z-dim);
     font-size: .9rem;
   }
   .foot {
@@ -462,22 +451,23 @@
     gap: 40px;
     align-items: start;
   }
-  .foot-meta strong { color: var(--ink); font-weight: 700; display: block; margin-bottom: 4px; font-size: 1rem; }
-  .foot-meta .addr { color: var(--ink-soft); line-height: 1.5; font-size: .9rem; margin-top: 6px; }
-  .foot-meta .tag { color: var(--ink-mute); margin-top: 10px; font-size: .88rem; }
+  .foot-meta strong { color: var(--z-ink); font-weight: 700; display: block; margin-bottom: 4px; font-size: 1rem; }
+  .foot-meta .addr { color: var(--z-body); line-height: 1.5; font-size: .9rem; margin-top: 6px; }
+  .foot-meta .tag { color: var(--z-dim); margin-top: 10px; font-size: .88rem; }
   .foot-links { display: flex; flex-direction: column; gap: 10px; }
   .foot-links h4 {
     font-size: .78rem; font-weight: 700; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--ink-mute); margin: 0 0 8px;
+    text-transform: uppercase; color: var(--z-dim); margin: 0 0 8px;
   }
-  .foot-links a { color: var(--ink-soft); }
+  .foot-links a { color: var(--z-acc); }
+  .foot-links a:hover { color: var(--z-acc-hover); }
   .foot-bottom {
     grid-column: 1 / -1;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--z-line);
     padding-top: 20px; margin-top: 12px;
     display: flex; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
-    color: var(--ink-mute); font-size: .85rem;
+    color: var(--z-dim); font-size: .85rem;
   }
   @media (max-width: 720px) {
     .foot { grid-template-columns: 1fr; gap: 28px; }
@@ -664,18 +654,17 @@
               <!-- Isometric: connected device + wifi waves -->
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
-                  <linearGradient id="cd1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#5e3fff"/><stop offset="100%" stop-color="#2a1a99"/>
+                  <linearGradient id="device" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="var(--z-acc)"/><stop offset="100%" stop-color="var(--z-acc-ink)"/>
                   </linearGradient>
                 </defs>
-                <ellipse cx="100" cy="140" rx="70" ry="8" fill="#000" opacity=".06"/>
-                <polygon points="100,120 160,90 100,60 40,90" fill="#efebff" stroke="#cbc4f5" stroke-width="1"/>
-                <polygon points="100,120 160,90 160,100 100,130" fill="#d6cef7"/>
-                <polygon points="100,120 40,90 40,100 100,130" fill="#bcb1ee"/>
-                <rect x="80" y="55" width="40" height="22" rx="4" fill="url(#cd1)"/>
-                <circle cx="100" cy="40" r="4" fill="#5e3fff"/>
-                <path d="M88 30 Q100 18 112 30" fill="none" stroke="#5e3fff" stroke-width="2" stroke-linecap="round"/>
-                <path d="M82 24 Q100 6 118 24" fill="none" stroke="#5e3fff" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+                <polygon points="100,120 160,90 100,60 40,90" fill="var(--z-tile)" stroke="var(--z-line-2)" stroke-width="1"/>
+                <polygon points="100,120 160,90 160,100 100,130" fill="var(--z-surface-2)"/>
+                <polygon points="100,120 40,90 40,100 100,130" fill="var(--z-surface)"/>
+                <rect x="80" y="55" width="40" height="22" rx="4" fill="url(#device)"/>
+                <circle cx="100" cy="40" r="4" fill="var(--z-acc)"/>
+                <path d="M88 30 Q100 18 112 30" fill="none" stroke="var(--z-acc)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M82 24 Q100 6 118 24" fill="none" stroke="var(--z-acc)" stroke-width="2" stroke-linecap="round" opacity=".6"/>
               </svg>
             </div>
             <h3>Connected<br>devices</h3>
@@ -697,21 +686,20 @@
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
                   <linearGradient id="so1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#5e3fff"/><stop offset="100%" stop-color="#2a1a99"/>
+                    <stop offset="0%" stop-color="var(--z-acc)"/><stop offset="100%" stop-color="var(--z-acc-ink)"/>
                   </linearGradient>
                 </defs>
-                <ellipse cx="100" cy="140" rx="70" ry="8" fill="#000" opacity=".06"/>
-                <polygon points="100,130 170,95 100,60 30,95" fill="#efebff" stroke="#cbc4f5" stroke-width="1"/>
-                <polygon points="100,130 170,95 170,105 100,140" fill="#d6cef7"/>
-                <polygon points="100,130 30,95 30,105 100,140" fill="#bcb1ee"/>
+                <polygon points="100,130 170,95 100,60 30,95" fill="var(--z-tile)" stroke="var(--z-line-2)" stroke-width="1"/>
+                <polygon points="100,130 170,95 170,105 100,140" fill="var(--z-surface-2)"/>
+                <polygon points="100,130 30,95 30,105 100,140" fill="var(--z-surface)"/>
                 <!-- monitor -->
                 <polygon points="120,80 140,70 120,60 100,70" fill="url(#so1)"/>
-                <polygon points="120,80 140,70 140,78 120,88" fill="#2a1a99" opacity=".8"/>
-                <polygon points="120,80 100,70 100,78 120,88" fill="#4733cc" opacity=".8"/>
+                <polygon points="120,80 140,70 140,78 120,88" fill="var(--z-acc-ink)" opacity=".8"/>
+                <polygon points="120,80 100,70 100,78 120,88" fill="var(--z-acc-hover)" opacity=".8"/>
                 <!-- laptop on the side -->
-                <polygon points="70,95 88,86 70,77 52,86" fill="#fff" stroke="#5e3fff" stroke-width="1.5"/>
-                <polygon points="70,95 88,86 88,92 70,101" fill="#efebff" stroke="#5e3fff" stroke-width="1.5"/>
-                <polygon points="70,95 52,86 52,92 70,101" fill="#d6cef7" stroke="#5e3fff" stroke-width="1.5"/>
+                <polygon points="70,95 88,86 70,77 52,86" fill="var(--z-ink-2)" stroke="var(--z-acc)" stroke-width="1.5"/>
+                <polygon points="70,95 88,86 88,92 70,101" fill="var(--z-tile)" stroke="var(--z-acc)" stroke-width="1.5"/>
+                <polygon points="70,95 52,86 52,92 70,101" fill="var(--z-surface-2)" stroke="var(--z-acc)" stroke-width="1.5"/>
               </svg>
             </div>
             <h3>Software for small<br>operators</h3>
@@ -733,17 +721,16 @@
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
                   <linearGradient id="hw1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#5e3fff"/><stop offset="100%" stop-color="#2a1a99"/>
+                    <stop offset="0%" stop-color="var(--z-acc)"/><stop offset="100%" stop-color="var(--z-acc-ink)"/>
                   </linearGradient>
                 </defs>
-                <ellipse cx="100" cy="140" rx="70" ry="8" fill="#000" opacity=".06"/>
-                <polygon points="100,120 160,90 100,60 40,90" fill="#efebff" stroke="#cbc4f5" stroke-width="1"/>
-                <polygon points="100,120 160,90 160,100 100,130" fill="#d6cef7"/>
-                <polygon points="100,120 40,90 40,100 100,130" fill="#bcb1ee"/>
+                <polygon points="100,120 160,90 100,60 40,90" fill="var(--z-tile)" stroke="var(--z-line-2)" stroke-width="1"/>
+                <polygon points="100,120 160,90 160,100 100,130" fill="var(--z-surface-2)"/>
+                <polygon points="100,120 40,90 40,100 100,130" fill="var(--z-surface)"/>
                 <!-- heart shape on top -->
                 <path d="M100 80 C100 70, 88 66, 84 76 C80 86, 100 100, 100 100 C100 100, 120 86, 116 76 C112 66, 100 70, 100 80 Z" fill="url(#hw1)"/>
                 <!-- pulse line -->
-                <path d="M50 50 L70 80 L85 60 L100 90 L115 70 L150 70" fill="none" stroke="#5e3fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M50 50 L70 80 L85 60 L100 90 L115 70 L150 70" fill="none" stroke="var(--z-acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <h3>Health &amp;<br>wellbeing</h3>
@@ -765,20 +752,19 @@
               <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
                   <linearGradient id="wm1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#5e3fff"/><stop offset="100%" stop-color="#2a1a99"/>
+                    <stop offset="0%" stop-color="var(--z-acc)"/><stop offset="100%" stop-color="var(--z-acc-ink)"/>
                   </linearGradient>
                 </defs>
-                <ellipse cx="100" cy="140" rx="70" ry="8" fill="#000" opacity=".06"/>
-                <polygon points="100,130 170,95 100,60 30,95" fill="#efebff" stroke="#cbc4f5" stroke-width="1"/>
-                <polygon points="100,130 170,95 170,105 100,140" fill="#d6cef7"/>
-                <polygon points="100,130 30,95 30,105 100,140" fill="#bcb1ee"/>
+                <polygon points="100,130 170,95 100,60 30,95" fill="var(--z-tile)" stroke="var(--z-line-2)" stroke-width="1"/>
+                <polygon points="100,130 170,95 170,105 100,140" fill="var(--z-surface-2)"/>
+                <polygon points="100,130 30,95 30,105 100,140" fill="var(--z-surface)"/>
                 <!-- nodes -->
                 <circle cx="70" cy="85" r="10" fill="url(#wm1)"/>
                 <circle cx="130" cy="100" r="10" fill="url(#wm1)"/>
                 <circle cx="100" cy="65" r="8" fill="url(#wm1)"/>
-                <line x1="78" y1="80" x2="92" y2="68" stroke="#5e3fff" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
-                <line x1="106" y1="70" x2="122" y2="96" stroke="#5e3fff" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
-                <line x1="78" y1="92" x2="122" y2="98" stroke="#5e3fff" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
+                <line x1="78" y1="80" x2="92" y2="68" stroke="var(--z-acc)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
+                <line x1="106" y1="70" x2="122" y2="96" stroke="var(--z-acc)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
+                <line x1="78" y1="92" x2="122" y2="98" stroke="var(--z-acc)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".6"/>
               </svg>
             </div>
             <h3>Workplace<br>modernization</h3>

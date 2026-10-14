@@ -8,28 +8,29 @@ universe: live
 
 ## Request
 
-Apply ICM-Architect leave-behind (maintenance map). System map + maintenance runbook; slim AGENTS.md; icm/ with CONTEXT.md for edit surfaces / do-not-touch / verify / human MD gates. Do not mass-move product code. Open a PR on the default branch. Walk-test in the PR body.
+Fix the off-brand purple on the Zspez landing page. The brand is orange on black. Replace every purple with the live zspez.ai tokens (`--z-bg` through `--z-ok`). Use `--z-acc` for CTAs, links, focus, and highlights, and `--z-acc-ink` for text on orange fills. Add no other colors. Keep text at WCAG AA and focus rings at 3:1. Add `scripts/check-no-purple`, run it, and screenshot the built page at 360, 393, and 1440.
 
 ## Universe
 
-live (new catalog). Subject tree stays live at repo root.
+live
 
 ## Surfaces
 
-- `AGENTS.md` — L0 routing
-- `CLAUDE.md` — pointer
-- `icm/**` — catalog, map, templates, runbook
-- Not in scope: `index.html`, `assets/`
+- `index.html` — `:root` tokens, hover and focus, SVG fills, `theme-color`
+- `scripts/check-no-purple` — hue scan of source and publishable output
+- `icm/_shared/brand.md` — token pointer
+- `icm/map/objects/landing-page.md` — token citation
+- `icm/map/processes/serve-and-browse.md` — host found while checking deploy
 
 ## Hits / Does not hit
 
-- **Hits:** agent cold start, maintenance pipeline, map cards
-- **Does not hit:** page copy, CSS, JS, image bytes or `src=`
+- **Hits:** `:root` tokens and every component that used them (landing page). Host note on serve-and-browse.
+- **Does not hit:** image bytes, `src=` paths, form backend, carousel timer, copy, legal name, address, email.
 
 ## Verify
 
-ICM walk test (entry → `icm/CONTEXT.md` → one contract). Confirm `git diff --name-only` has no `index.html` or `assets/`.
+`scripts/check-no-purple`. Playwright on `http://127.0.0.1:8080/` at 360, 393, and 1440, before and after. Text contrast and focus-ring contrast on the built page.
 
 ## Human gate
 
-Phone review: docs-only PR, product files untouched, walk-test in the PR body.
+Phone review: orange on black, no purple, address and email unchanged, photos still the known missing-JPG baseline. Do not merge until that read.

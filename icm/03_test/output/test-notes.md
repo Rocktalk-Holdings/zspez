@@ -1,41 +1,42 @@
-# Test notes — ICM leave-behind
+# Test notes — orange on black
 
-Viewport: docs walk (no product UI change). Product proof: `index.html` still at repo root.
+Viewport: Playwright Chromium, `prefers-reduced-motion: reduce`, full page at 360, 393, and 1440. Page opened at `http://127.0.0.1:8080/` (`python3 -m http.server 8080` from the repo root). There is no compile step; that URL is the built page.
 
 ## Commands
 
 ```bash
-git diff --name-only -- index.html assets
-# (empty)
-
 python3 -m http.server 8080
-curl -sS -o /dev/null -w "%{http_code} %{size_download}\n" http://127.0.0.1:8080/
-# 200 34610 — title still "Zspez — Technology For People"
-curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8080/assets/hero-101.png
-# 200
-curl -sS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8080/assets/hero-1.jpg
-# 404 — ghost src, documented on image-assets
+scripts/check-no-purple --self-test
+scripts/check-no-purple
 ```
 
-## Walk test
+Checker: self-test ok. Scan found `index.html` only, no `dist`/`build`/`out`/`_site`/`public`/`site`, `violations: 0`, exit 0.
 
-| Check | Result |
+## Screenshots
+
+Before (purple on a light page) and after (orange on black):
+
+- `/opt/cursor/artifacts/zspez-before-360.png`
+- `/opt/cursor/artifacts/zspez-before-393.png`
+- `/opt/cursor/artifacts/zspez-before-1440.png`
+- `/opt/cursor/artifacts/zspez-after-360.png`
+- `/opt/cursor/artifacts/zspez-after-393.png`
+- `/opt/cursor/artifacts/zspez-after-1440.png`
+- `/opt/cursor/artifacts/zspez-after-1440-focus-cta.png` (keyboard-style focus on the primary CTA)
+
+## Checklist rows this change can hit
+
+| Row | Result |
 |---|---|
-| Entry answers where / where to go | Pass — `AGENTS.md` 40 lines, route table |
-| Orient in ≤3 reads | Pass — AGENTS → `icm/CONTEXT.md` → area CONTEXT |
-| Stage contract complete | Pass — `01_triage` has Inputs / Process / Outputs / Human check |
-| Status from `output/` | Pass — change-note + change-log present; `.gitkeep` ignored |
-| Routing has no payload | Pass — no page copy in AGENTS |
-| One home per fact | Pass — `brand.md` points at `index.html` |
-| Product unmoved | Pass |
-| What is contact form | Pass — `_index` → `contact-form.md` cites `index.html:837-848` |
-| Change hero photos hits | Pass — `effects/` → image-assets + rotate-carousel; not the form |
-| See lands on source | Pass — not another essay |
-
-## Checklist rows (product)
-
-Not re-run beyond "file still served": this PR does not edit `index.html`. Baseline image mismatch unchanged (JPG `src`, PNG files).
+| Page opens | Pass — HTTP 200 |
+| Tokens / sections | Pass — full-page shots at 360, 393, 1440. Hero, method, focus, values, contact, footer all use the dark tokens. Narrow widths stack cards; nav CTA stays. |
+| Text contrast | Pass — sampled pairs 5.45:1 to 19.67:1 (AA is 4.5:1). Lowest is the orange eyebrow on the soft orange wash. |
+| Focus rings | Pass — Tab order shows `3px solid rgb(253, 109, 1)` with `outline-offset: 3px`. Orange against `#0b0b0c` is 6.90:1 (need 3:1). |
+| Rendered purple | Pass — every computed color on the page was outside the purple hue band. `theme-color` is `#0b0b0c`. Selection is orange fill with `#140700` text. |
+| Invalid email border | Pass — `user-invalid` border is `rgb(255, 138, 122)` (`--z-err`). Button label stays `Send`. |
+| Images | Baseline unchanged. HTML still names missing JPGs; `onerror` still hides them. |
+| Address, email, legal name | Unchanged |
 
 ## Failures
 
-None for the leave-behind. Image `src` mismatch remains a documented ghost, not this diff.
+None in this diff. The contact `onsubmit` handler still throws `Unexpected identifier 'll'` because of the apostrophe escape. That string is unchanged from `main`. Valid submit does not reach the thanks label. Not introduced here.
