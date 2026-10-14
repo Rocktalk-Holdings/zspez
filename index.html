@@ -53,6 +53,9 @@
   a { color: #e6e6e6; text-decoration: none; }
   a:hover { color: var(--z-acc); text-decoration: underline; }
   h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 .4em; }
+  h1, h2, h3, p, .lede, .subtitle, .eyebrow, .btn, .brand, .foot-label {
+    overflow-wrap: anywhere;
+  }
   h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; }
   h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); font-weight: 700; }
   h3 { font-size: 1.1rem; font-weight: 600; }
@@ -61,6 +64,7 @@
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
   .eyebrow {
     display: inline-block;
+    max-width: 100%;
     font-size: .95rem;
     font-weight: 700;
     letter-spacing: .12em;
@@ -80,7 +84,10 @@
   }
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 0;
+    flex-wrap: wrap;
+    row-gap: 8px;
+    padding-block: 14px;
+    min-width: 0;
   }
   .brand {
     display: flex; align-items: center; gap: 10px;
@@ -92,7 +99,7 @@
     background: var(--z-acc);
     display: grid; place-items: center; color: var(--z-acc-ink); font-weight: 800; font-size: .85rem;
   }
-  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; min-width: 0; }
   .nav-links a { color: #e6e6e6; font-size: .95rem; }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] { color: var(--z-acc); text-decoration: none; }
@@ -101,12 +108,16 @@
     color: #e6e6e6;
     border: 1px solid #6d6d71;
     min-height: 44px;
-    padding: 0 16px;
+    padding-block: 0;
+    padding-inline: 16px;
     border-radius: 10px;
     font-weight: 600;
     font-size: .9rem;
     display: inline-flex;
     align-items: center;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
   }
   .nav-links a.nav-cta:hover,
   .nav-links a.nav-cta[aria-current="page"] {
@@ -120,7 +131,7 @@
   /* ---------- Hero ---------- */
   .hero {
     padding: clamp(72px, 11vw, 130px) 0 clamp(72px, 11vw, 120px);
-    position: relative; overflow: hidden;
+    position: relative;
   }
   @media (max-width: 480px) {
     .hero { padding-top: 36px; }
@@ -129,6 +140,7 @@
     display: grid; grid-template-columns: 1.2fr .8fr;
     gap: clamp(32px, 6vw, 80px); align-items: center;
   }
+  .hero-inner > * { min-width: 0; }
   .hero h1 { color: var(--z-ink); margin-bottom: 24px; }
   .hero h1 .accent { color: var(--z-acc); }
   .hero p.lede { font-size: 1.2rem; max-width: 560px; color: var(--z-body); }
@@ -139,6 +151,9 @@
     font-weight: 600; font-size: 1rem; cursor: pointer;
     border: 1px solid transparent;
     min-height: 44px;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
     transition: background .15s ease, color .15s ease, border-color .15s ease;
   }
   .btn-primary { background: var(--z-acc); color: var(--z-acc-ink); }
@@ -186,8 +201,10 @@
     transform: none;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 0;
     margin-top: 4px;
+    max-width: 100%;
     background: transparent;
     border: 0;
     padding: 0;
@@ -217,7 +234,7 @@
   /* ---------- Section base ---------- */
   section { padding: clamp(64px, 9vw, 110px) 0; }
   #services, #focus, #values, #contact { scroll-margin-top: 72px; }
-  .section-head { max-width: 680px; margin: 0 auto 56px; text-align: center; }
+  .section-head { max-width: 680px; margin: 0 auto 56px; text-align: center; min-width: 0; }
   .section-head p { font-size: 1.08rem; }
 
   /* ---------- Services ---------- */
@@ -225,6 +242,7 @@
   .cards {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
   }
+  .cards > * { min-width: 0; }
   .card {
     background: var(--z-tile);
     border: 1px solid var(--z-line);
@@ -272,10 +290,18 @@
     object-fit: cover;
     filter: saturate(1.15) brightness(.92);
   }
+  .focus-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--z-bg);
+    opacity: .9;
+  }
   .focus-content { position: relative; z-index: 1; }
   .focus-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
   }
+  .focus-grid > * { min-width: 0; }
   .flip {
     perspective: 1200px;
     height: 280px;
@@ -366,7 +392,7 @@
     border: 1px solid var(--z-line);
     border-radius: var(--radius-lg);
     padding: clamp(48px, 7vw, 88px);
-    position: relative; overflow: hidden;
+    position: relative;
   }
   .values-head {
     position: relative;
@@ -379,6 +405,7 @@
     position: relative;
     display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
   }
+  .values-list > * { min-width: 0; }
   .value-item {
     position: relative;
     background: var(--z-tile);
@@ -412,6 +439,11 @@
     .value-item { padding: 24px 22px 24px 74px; }
     .value-num { top: 22px; left: 22px; width: 32px; height: 32px; font-size: .75rem; }
   }
+  @media (max-width: 220px) {
+    .values-wrap { padding: 24px 12px; }
+    .value-item { padding: 16px; }
+    .value-num { position: static; margin: 0 0 10px; }
+  }
 
   /* ---------- CTA ---------- */
   .cta {
@@ -424,10 +456,11 @@
   .cta h2 { margin-bottom: 12px; }
   .cta p { max-width: 540px; margin: 0 auto 28px; font-size: 1.05rem; }
   .cta-form {
-    display: flex; gap: 8px; max-width: 460px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 8px; max-width: 460px; margin: 0 auto;
+    width: 100%; min-width: 0;
   }
   .cta-form input {
-    flex: 1; padding: 13px 16px;
+    flex: 1 1 0; width: 0; min-width: 0; max-width: 100%; padding: 13px 16px;
     border: 1px solid var(--z-dim);
     border-radius: 12px;
     font-family: inherit; font-size: 1rem;
@@ -442,11 +475,16 @@
     background: var(--z-acc); color: var(--z-acc-ink); font-weight: 600; font-size: 1rem;
     cursor: pointer;
     min-height: 44px;
+    max-width: 100%;
+    white-space: normal;
   }
   .cta-form button:hover { background: var(--z-acc-hover); color: var(--z-acc-ink); }
   .cta-form button:disabled { background: var(--z-acc); color: var(--z-acc-ink); opacity: 1; }
   .cta-note { color: var(--z-dim); font-size: .88rem; margin-top: 16px; }
-  @media (max-width: 560px) { .cta-form { flex-direction: column; } }
+  @media (max-width: 560px) {
+    .cta-form { flex-direction: column; }
+    .cta-form input { width: 100%; flex-basis: auto; }
+  }
 
   /* ---------- Footer ---------- */
   footer {
@@ -466,7 +504,7 @@
   .foot-meta .addr { color: var(--z-body); line-height: 1.5; font-size: .9rem; margin-top: 6px; }
   .foot-meta .tag { color: var(--z-dim); margin-top: 10px; font-size: .88rem; }
   .foot-links { display: flex; flex-direction: column; gap: 10px; }
-  .foot-links h4 {
+  .foot-links .foot-label {
     font-size: .78rem; font-weight: 700; letter-spacing: .1em;
     text-transform: uppercase; color: var(--z-dim); margin: 0 0 8px;
   }
@@ -506,6 +544,7 @@
     const root = document.querySelector('[data-carousel]');
     if (root) initCarousel(root);
     initCurrent();
+    initForm();
     }
     function initCarousel(root) {
     const slides = root.querySelectorAll('.carousel-slide');
@@ -573,6 +612,16 @@
       mark();
       window.addEventListener('scroll', mark, { passive: true });
     }
+    function initForm() {
+      const form = document.querySelector('.cta-form');
+      if (!form) return;
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const button = form.querySelector('button');
+        button.textContent = "Thanks — we'll be in touch";
+        button.disabled = true;
+      });
+    }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
     else boot();
   })();
@@ -596,6 +645,7 @@
   </div>
 </header>
 
+<main>
 <!-- ===== Hero ===== -->
 <section class="hero">
   <div class="wrap hero-inner">
@@ -679,7 +729,7 @@
 <!-- ===== Our Focus (flip cards) ===== -->
 <section id="focus" class="focus-with-bg">
   <div class="focus-bg" aria-hidden="true">
-    <img src="assets/focus-bg.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+    <img src="assets/focus-bg.png" alt="" loading="lazy" onerror="this.style.display='none'">
   </div>
   <div class="wrap focus-content">
     <div class="section-head">
@@ -866,13 +916,14 @@
     <span class="eyebrow">Get in touch</span>
     <h2>Working on something that should reach more people?</h2>
     <p>Whether you're building a technology and need a commercialization partner, or you're a user with a question — we'd like to hear from you.</p>
-    <form class="cta-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks — we\\'ll be in touch'; this.querySelector('button').disabled=true;">
+    <form class="cta-form">
       <label for="email" class="sr-only">Email address</label>
       <input id="email" type="email" required placeholder="you@example.com">
       <button type="submit">Send</button>
     </form>
   </div>
 </section>
+</main>
 
 <!-- ===== Footer ===== -->
 <footer role="contentinfo">
@@ -883,13 +934,13 @@
       <div class="addr">7301 W 129th St #130<br>Overland Park, KS 66213</div>
     </div>
     <nav class="foot-links" aria-label="Footer navigation">
-      <h4>Method</h4>
+      <p class="foot-label">Method</p>
       <a href="#services">Our Method</a>
       <a href="#focus">Our Focus</a>
       <a href="#values">Our Values</a>
     </nav>
     <nav class="foot-links" aria-label="Contact">
-      <h4>Contact</h4>
+      <p class="foot-label">Contact</p>
       <a href="#contact">Get in touch</a>
       <a href="mailto:hello@zspez.com">hello@zspez.com</a>
     </nav>

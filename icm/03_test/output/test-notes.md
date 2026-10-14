@@ -61,6 +61,17 @@ Screenshots:
 - `/opt/cursor/artifacts/zspez-pass3-360-focus-hover.png`
 - `/opt/cursor/artifacts/zspez-pass3-360-header-scroll.png`
 
-## Baseline
+## Pass 4 — gutter, break-it, axe
 
-Focus background still requests `assets/focus-bg.jpg`, which is not in git. The contact `onsubmit` handler still throws `Unexpected identifier 'll'` on the apostrophe. That string is unchanged from `main`.
+`scripts/check-no-purple` and `scripts/check-landing` both exit 0.
+
+At 360 the brand and the headline both start 24px from the left. The header "Get in touch" control has 16px inner side padding and its right edge is 24px from the viewport. Its fill is transparent over `#141416`; the label is `#e6e6e6`.
+
+Playwright at 320, 360, 768, 1024, 1440, and 1920: no horizontal scroll at 1×, at CSS zoom 2, or with the root font at 32px. The same holds at 160 and 180, the layout width of a 320 and 360 viewport at 200% zoom. Keyboard Tab walks every control and lands on the document (no trap); each focused control shows a 2px solid orange outline. Shift+Tab moves back. Reduced motion keeps the laptop slide and does not flip a card. Aborting images hides them and leaves the headline. A delayed image does not block the headline or the hero CTA. An 80-character email stays inside the field. A valid submit reads `Thanks — we'll be in touch` and disables the button. An invalid email leaves the button as Send. Links are only `#`, `#services`, `#focus`, `#values`, `#contact`, and `mailto:hello@zspez.com`.
+
+axe-core on the page at 360 and 1440: no violations. Before the landmark and heading fix it reported `heading-order`, `landmark-one-main`, and `region`, all moderate.
+
+Screenshots:
+
+- `/opt/cursor/artifacts/zspez-final-360-header.png`
+- `/opt/cursor/artifacts/zspez-final-1440.png`

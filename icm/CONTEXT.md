@@ -31,14 +31,14 @@ A person can name the next folder from `AGENTS.md` plus this file, without openi
 |---|---|
 | **live** | In force: `index.html`, `assets/*.png`, in-page CSS/JS |
 | **leftover** | Present but not the main path: `onerror` image hide |
-| **ghost** | Named, not wired: `assets/hero-*.jpg`, `assets/focus-bg.jpg`, form POST |
+| **ghost** | Named, not wired: form POST |
 
 ## Name collisions
 
 | Word | Means | Does not mean |
 |---|---|---|
 | Hero | Hero section + carousel (`index.html` ~L567) | The PNG files in `assets/` (different names) |
-| Focus | `#focus` flip-card section | The missing `focus-bg.jpg` |
+| Focus | `#focus` flip-card section | The background photo file |
 | CTA | Hero buttons **or** `#contact` form — say which |
 | Contact | In-page form (no network) | Footer `mailto:hello@zspez.com` |
 

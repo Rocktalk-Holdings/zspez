@@ -10,7 +10,7 @@ entity: assets/
 
 # Image assets = `assets/*.png`
 
-Hero carousel `src` values point at the PNG files in git. The focus background still names a JPG that is not in git.
+Hero carousel and focus background `src` values point at the PNG files in git.
 
 ## Why this shape
 
@@ -24,7 +24,7 @@ The page is static. Images are just files next to `index.html`. The 2026-09-04 c
 | `assets/hero-202.png` | `assets/hero-202.png` |
 | `assets/hero-303.png` | `assets/hero-303.png` |
 | `assets/hero-404.png` | `assets/hero-404.png` |
-| `assets/focus-bg.jpg` (ghost) | `assets/focus-bg.png` |
+| `assets/focus-bg.png` | `assets/focus-bg.png` |
 
 Leftover: `onerror="this.style.display='none'"` on those `<img>` tags.
 
