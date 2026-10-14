@@ -32,7 +32,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; color-scheme: dark; }
+  html { scroll-behavior: smooth; color-scheme: dark; margin: 0; }
   ::selection { background: var(--z-acc); color: var(--z-acc-ink); }
   :focus-visible {
     outline: 2px solid #fd6d01;
@@ -40,6 +40,7 @@
   }
   body {
     margin: 0;
+    transform: none;
     font-family: var(--sans);
     font-size: 17px;
     line-height: 1.6;
@@ -49,6 +50,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  button, input, select, textarea { font: inherit; }
   img, svg { display: block; max-width: 100%; height: auto; }
   a { color: #e6e6e6; text-decoration: none; }
   a:hover { color: var(--z-acc); text-decoration: underline; }
@@ -80,7 +82,10 @@
   .nav {
     background: #141416;
     border-bottom: 1px solid rgba(255,255,255,.14);
-    position: sticky; top: 0; z-index: 50;
+    position: sticky;
+    top: 0;
+    margin: 0;
+    z-index: 50;
   }
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
@@ -180,7 +185,7 @@
     border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--z-tile);
-    border: 1px solid var(--z-line);
+    border: 0;
   }
   .carousel-track {
     position: relative;
@@ -274,29 +279,8 @@
   .card p { font-size: 1rem; margin: 0; }
   @media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
 
-  /* ---------- Focus (flip cards + glass background) ---------- */
-  .focus-with-bg {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-  }
-  .focus-bg {
-    position: absolute;
-    inset: -8% -4%;
-    z-index: -2;
-  }
-  .focus-bg img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: saturate(1.15) brightness(.92);
-  }
-  .focus-bg::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--z-bg);
-    opacity: .9;
-  }
+  /* ---------- Focus ---------- */
+  .focus-with-bg { background: #0b0b0c; }
   .focus-content { position: relative; z-index: 1; }
   .focus-grid {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
@@ -662,16 +646,16 @@
         <div class="carousel-frame">
         <div class="carousel-track">
           <div class="carousel-slide is-active">
-            <img src="assets/hero-101.png" alt="Isometric illustration of a laptop on a stand." loading="eager" onerror="this.style.display='none'">
+            <img src="assets/hero-laptop.svg" alt="Abstract product interface on a laptop." loading="eager" onerror="this.style.display='none'">
           </div>
           <div class="carousel-slide">
-            <img src="assets/hero-202.png" alt="Isometric illustration of a desktop monitor." loading="lazy" onerror="this.style.display='none'">
+            <img src="assets/hero-monitor.svg" alt="Abstract dashboard on a desktop display." loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="carousel-slide">
-            <img src="assets/hero-303.png" alt="Isometric illustration of a smartphone." loading="lazy" onerror="this.style.display='none'">
+            <img src="assets/hero-phone.svg" alt="Abstract interface on a phone." loading="lazy" onerror="this.style.display='none'">
           </div>
           <div class="carousel-slide">
-            <img src="assets/hero-404.png" alt="Isometric illustration of a tablet." loading="lazy" onerror="this.style.display='none'">
+            <img src="assets/hero-tablet.svg" alt="Abstract split view on a tablet." loading="lazy" onerror="this.style.display='none'">
           </div>
         </div>
         </div>
@@ -728,9 +712,6 @@
 
 <!-- ===== Our Focus (flip cards) ===== -->
 <section id="focus" class="focus-with-bg">
-  <div class="focus-bg" aria-hidden="true">
-    <img src="assets/focus-bg.png" alt="" loading="lazy" onerror="this.style.display='none'">
-  </div>
   <div class="wrap focus-content">
     <div class="section-head">
       <span class="eyebrow">Our Focus</span>
@@ -931,7 +912,7 @@
     <div class="foot-meta">
       <strong>Zspez LLC</strong>
       Technology for People.
-      <div class="addr">7301 W 129th St #130<br>Overland Park, KS 66213</div>
+      <div class="addr">7301 W 129th St, Overland Park, KS 66213</div>
     </div>
     <nav class="foot-links" aria-label="Footer navigation">
       <p class="foot-label">Method</p>
@@ -942,7 +923,7 @@
     <nav class="foot-links" aria-label="Contact">
       <p class="foot-label">Contact</p>
       <a href="#contact">Get in touch</a>
-      <a href="mailto:hello@zspez.com">hello@zspez.com</a>
+      <a href="mailto:build@zspez.ai">build@zspez.ai</a>
     </nav>
     <div class="foot-bottom">
       <span>© 2026 Zspez LLC</span>

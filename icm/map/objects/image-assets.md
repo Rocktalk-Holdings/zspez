@@ -8,9 +8,9 @@ commit: 1023111
 entity: assets/
 ---
 
-# Image assets = `assets/*.png`
+# Image assets = `assets/`
 
-Hero carousel and focus background `src` values point at the PNG files in git.
+Hero carousel `src` values point at original SVG files. The focus section is a flat `#0b0b0c` band. `assets/ASSETS.md` records the source and license of each file.
 
 ## Why this shape
 
@@ -20,11 +20,10 @@ The page is static. Images are just files next to `index.html`. The 2026-09-04 c
 
 | HTML `src` | File in git |
 |---|---|
-| `assets/hero-101.png` | `assets/hero-101.png` |
-| `assets/hero-202.png` | `assets/hero-202.png` |
-| `assets/hero-303.png` | `assets/hero-303.png` |
-| `assets/hero-404.png` | `assets/hero-404.png` |
-| `assets/focus-bg.png` | `assets/focus-bg.png` |
+| `assets/hero-laptop.svg` | `assets/hero-laptop.svg` |
+| `assets/hero-monitor.svg` | `assets/hero-monitor.svg` |
+| `assets/hero-phone.svg` | `assets/hero-phone.svg` |
+| `assets/hero-tablet.svg` | `assets/hero-tablet.svg` |
 
 Leftover: `onerror="this.style.display='none'"` on those `<img>` tags.
 
