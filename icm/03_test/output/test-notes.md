@@ -25,8 +25,16 @@ Both checks exit 0. Purple scan: `violations: 0` (the four SVGs are included). L
 
 axe-core at 360 and 1440: no violations.
 
+## Craft follow-up
+
+At 360, scrollY 0, the header box is top 0, height 73, sticky, margin 0. Its parent `body` has margin 0 and transform none. The first pixel row of the viewport screenshot is the header color `#141416`.
+
+H1 bounding box at 360×800: x 24, y 109, width 312, height 176.625, right 336, bottom 285.625. The text is `We turn emerging tech into everyday tools.` The box starts 36px below the header and ends inside the viewport, so the headline is fully visible.
+
+The Send button's platform font is Noto Sans Bold. Four slides and four dots remain. The focus section background is `rgb(11, 11, 12)`. The hero frame border width is 0. The address text is `7301 W 129th St, Overland Park, KS 66213`. axe-core reports no violations at 360 and 1440. Both check scripts exit 0.
+
 ## Screenshots
 
-- `/opt/cursor/artifacts/zspez-inbox-1440.png` — full page, hero in the first view
-- `/opt/cursor/artifacts/zspez-inbox-360-hero.png` — hero graphic at 360
-- `/opt/cursor/artifacts/zspez-inbox-360-contact-footer.png` — contact through the footer, including `build@zspez.ai`
+- `/opt/cursor/artifacts/zspez-craft4-1440.png` — full page at 1440
+- `/opt/cursor/artifacts/zspez-craft4-360-top.png` — top of the page at 360, viewport only
+- `/opt/cursor/artifacts/zspez-craft4-360-contact.png` — contact area at 360

@@ -10,7 +10,7 @@ entity: assets/
 
 # Image assets = `assets/`
 
-Hero carousel `src` values point at original SVG files. The focus background points at `assets/focus-bg.png`. `assets/ASSETS.md` records the source and license of each file.
+Hero carousel `src` values point at original SVG files. The focus section is a flat `#0b0b0c` band. `assets/ASSETS.md` records the source and license of each file.
 
 ## Why this shape
 
@@ -24,7 +24,6 @@ The page is static. Images are just files next to `index.html`. The 2026-09-04 c
 | `assets/hero-monitor.svg` | `assets/hero-monitor.svg` |
 | `assets/hero-phone.svg` | `assets/hero-phone.svg` |
 | `assets/hero-tablet.svg` | `assets/hero-tablet.svg` |
-| `assets/focus-bg.png` | `assets/focus-bg.png` |
 
 Leftover: `onerror="this.style.display='none'"` on those `<img>` tags.
 
