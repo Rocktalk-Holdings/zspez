@@ -13,4 +13,4 @@ Use with `icm/verify/CONTEXT.md`. Check only the rows the change can hit.
 9. Narrow viewport (~400px): nav CTA remains; body cards stack; form stacks.
 10. `prefers-reduced-motion`: carousel does not auto-play; flips do not rotate.
 
-Images: HTML names `assets/hero-1.jpg` … `hero-4.jpg` and `focus-bg.jpg`. Repo files are `hero-101.png` … `hero-404.png` and `focus-bg.png`. Until paths match, `onerror` hides the `<img>`. Do not treat a blank hero frame as a new regression unless you changed those `src` values.
+Images: HTML `src` values are `assets/hero-101.png` … `hero-404.png` and `assets/focus-bg.png`. `onerror` still hides an image if a file is missing.

@@ -18,7 +18,7 @@ Clone-and-open. No bundler. A change to look, copy, or behavior is almost always
 
 ## Shape
 
-- Tokens: `:root` `index.html:8-26`
+- Tokens: `:root` `--z-*` in `index.html`
 - Sticky nav + in-page anchors: `index.html:551-564`
 - Hero: `index.html:567-602`
 - Method `#services`: `index.html:605-642`

@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""Check the landing page craft rules that sit next to the purple scan.
+
+- The copyright line is exactly "© 2026 Zspez LLC".
+- The header "Get in touch" control is not a filled orange CTA.
+- The hero contains one filled orange CTA (`.btn-primary`).
+- The contact submit is the only other filled orange control, and it lives
+  in `#contact`, so the first view (header + hero) has a single filled CTA.
+- Visible copy has no placeholder text: HOVER, lorem, TODO, or placeholder.
+"""
+
+from __future__ import annotations
+
+import os
+import re
+import sys
+
+COPYRIGHT = "© 2026 Zspez LLC"
+
+
+def repo_root() -> str:
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+def read_page(root: str) -> str:
+    path = os.path.join(root, "index.html")
+    with open(path, encoding="utf-8") as handle:
+        return handle.read()
+
+
+def css_block(html: str, selector: str) -> str:
+    match = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", html)
+    if not match:
+        return ""
+    return match.group(1)
+
+
+def visible_text(html: str) -> str:
+    text = re.sub(r"<script\b[^>]*>.*?</script>", " ", html, flags=re.I | re.S)
+    text = re.sub(r"<style\b[^>]*>.*?</style>", " ", text, flags=re.I | re.S)
+    text = re.sub(r"<!--.*?-->", " ", text, flags=re.S)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return text
+
+
+def slice_between(html: str, start: str, end: str) -> str:
+    begin = html.find(start)
+    if begin < 0:
+        return ""
+    finish = html.find(end, begin)
+    if finish < 0:
+        return html[begin:]
+    return html[begin:finish]
+
+
+def main() -> int:
+    root = sys.argv[1] if len(sys.argv) > 1 else repo_root()
+    html = read_page(root)
+    failures: list[str] = []
+
+    if f"<span>{COPYRIGHT}</span>" not in html:
+        failures.append(f"copyright line is not exactly {COPYRIGHT!r}")
+    if "All rights reserved" in html:
+        failures.append("copyright still includes extra footer text")
+
+    nav_cta = css_block(html, ".nav-links a.nav-cta")
+    if "background: transparent" not in nav_cta:
+        failures.append("header Get in touch is not a ghost button")
+    if "#6d6d71" not in nav_cta:
+        failures.append("header ghost border is not #6d6d71")
+    if re.search(r"background:\s*var\(--z-acc\)", nav_cta):
+        failures.append("header Get in touch uses a filled orange background")
+
+    header = slice_between(html, "<header", "</header>")
+    hero = slice_between(html, '<section class="hero"', "</section>")
+    if "btn-primary" in header:
+        failures.append("header contains a filled primary CTA")
+    primary_in_hero = len(re.findall(r'class="[^"]*\bbtn-primary\b', hero))
+    primary_in_page = len(re.findall(r'class="[^"]*\bbtn-primary\b', html))
+    if primary_in_hero != 1 or primary_in_page != 1:
+        failures.append(
+            f"expected one filled hero CTA, found hero={primary_in_hero} page={primary_in_page}"
+        )
+
+    contact = slice_between(html, 'id="contact"', "</section>")
+    if "btn-primary" in contact:
+        failures.append("contact section duplicates the hero filled CTA class")
+    submit = css_block(html, ".cta-form button")
+    if "var(--z-acc)" not in submit:
+        failures.append("contact submit is missing its filled orange background")
+
+    nav_links = css_block(html, ".nav-links a")
+    if "#e6e6e6" not in nav_links:
+        failures.append("nav links are not #e6e6e6")
+    footer_links = css_block(html, ".foot-links a")
+    if "#9e9e9e" not in footer_links:
+        failures.append("footer links are not #9e9e9e")
+
+    focus = css_block(html, ":focus-visible")
+    if "2px solid #fd6d01" not in focus or "outline-offset: 3px" not in focus:
+        failures.append("focus ring is not 2px #fd6d01 with a 3px offset")
+
+    shown = visible_text(html)
+    for word in ("HOVER", "lorem", "TODO", "placeholder"):
+        if re.search(rf"(?i)\b{word}\b", shown):
+            failures.append(f"visible placeholder text: {word}")
+
+    if failures:
+        print(f"violations: {len(failures)}")
+        for item in failures:
+            print(item)
+        return 1
+    print("landing checks ok")
+    print(f"copyright: {COPYRIGHT}")
+    print("filled CTA in header+hero: 1 (.btn-primary)")
+    print("filled CTA in #contact: 1 (submit, outside the first view)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

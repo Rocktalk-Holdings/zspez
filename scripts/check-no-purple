@@ -1,0 +1,379 @@
+#!/usr/bin/env python3
+"""Fail if source or built output still contains a purple or violet hue.
+
+Colors are read from hex, rgb()/rgba(), hsl()/hsla(), hwb(), oklch(), and
+CSS named colors. A color counts when its hue is in the indigo/violet/purple
+band (245°–325°) and its HSL saturation is at least 0.12. Named colors in
+that family count even when the keyword's own hue sits on the edge of the band.
+
+This repo has no compile step. GitHub Pages publishes the repository root, so
+that root is both the source and the built output. Conventional build
+directories are scanned too when they exist.
+"""
+
+from __future__ import annotations
+
+import argparse
+import math
+import os
+import re
+import sys
+
+HUE_MIN = 245.0
+HUE_MAX = 325.0
+MIN_SATURATION = 0.12
+
+# CSS named colors whose hue is purple/violet/indigo, plus family names
+# (lavender, orchid, magenta) a brand sweep must not leave behind.
+NAMED = {
+    "blueviolet",
+    "darkmagenta",
+    "darkorchid",
+    "darkslateblue",
+    "darkviolet",
+    "fuchsia",
+    "indigo",
+    "lavender",
+    "lavenderblush",
+    "magenta",
+    "mediumorchid",
+    "mediumpurple",
+    "mediumslateblue",
+    "mediumvioletred",
+    "orchid",
+    "palevioletred",
+    "plum",
+    "purple",
+    "rebeccapurple",
+    "slateblue",
+    "thistle",
+    "violet",
+}
+
+SOURCE_EXTENSIONS = {
+    ".html",
+    ".htm",
+    ".css",
+    ".js",
+    ".mjs",
+    ".cjs",
+    ".svg",
+    ".jsx",
+    ".ts",
+    ".tsx",
+    ".vue",
+    ".json",
+}
+
+SKIP_DIRS = {".git", "node_modules", "icm", ".cursor"}
+BUILD_DIRS = ("dist", "build", "out", "_site", "public", "site")
+
+HEX_RE = re.compile(
+    r"#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})(?![0-9a-fA-F])"
+)
+FUNC_RE = re.compile(r"(?i)\b(rgba?|hsla?|hwb|oklch)\(\s*([^)]*)\)")
+NAMED_RE = re.compile(
+    r"\b(" + "|".join(sorted(NAMED, key=len, reverse=True)) + r")\b",
+    re.IGNORECASE,
+)
+
+
+def rgb_to_hsl(r: float, g: float, b: float) -> tuple[float, float, float]:
+    r, g, b = r / 255.0, g / 255.0, b / 255.0
+    mx = max(r, g, b)
+    mn = min(r, g, b)
+    light = (mx + mn) / 2.0
+    if mx == mn:
+        return 0.0, 0.0, light
+    delta = mx - mn
+    if light > 0.5:
+        sat = delta / (2.0 - mx - mn)
+    else:
+        sat = delta / (mx + mn)
+    if mx == r:
+        hue = (g - b) / delta + (6.0 if g < b else 0.0)
+    elif mx == g:
+        hue = (b - r) / delta + 2.0
+    else:
+        hue = (r - g) / delta + 4.0
+    return (hue * 60.0) % 360.0, sat, light
+
+
+def is_purple_rgb(r: float, g: float, b: float) -> tuple[bool, float, float]:
+    hue, sat, _light = rgb_to_hsl(r, g, b)
+    return (MIN_SATURATION <= sat and HUE_MIN <= hue <= HUE_MAX), hue, sat
+
+
+def parse_hue(token: str) -> float:
+    text = token.strip().lower()
+    if text.endswith("deg"):
+        return float(text[:-3]) % 360.0
+    if text.endswith("turn"):
+        return float(text[:-4]) * 360.0 % 360.0
+    if text.endswith("grad"):
+        return float(text[:-4]) * 0.9 % 360.0
+    if text.endswith("rad"):
+        return math.degrees(float(text[:-3])) % 360.0
+    return float(text) % 360.0
+
+
+def parse_unit(token: str) -> float:
+    text = token.strip()
+    if text.endswith("%"):
+        return float(text[:-1]) / 100.0
+    value = float(text)
+    if value > 1.0:
+        return value / 100.0
+    return value
+
+
+def split_color_args(body: str) -> tuple[list[str], str | None]:
+    text = body.strip()
+    alpha = None
+    if "/" in text:
+        text, alpha_text = text.split("/", 1)
+        alpha = alpha_text.strip()
+    if "," in text:
+        parts = [part.strip() for part in text.split(",") if part.strip()]
+        if alpha is None and len(parts) == 4:
+            alpha = parts[3]
+            parts = parts[:3]
+        return parts, alpha
+    parts = [part for part in text.split() if part]
+    return parts, alpha
+
+
+def channel_255(token: str, comma_syntax: bool) -> float:
+    text = token.strip()
+    if text.endswith("%"):
+        return float(text[:-1]) / 100.0 * 255.0
+    value = float(text)
+    if not comma_syntax and value <= 1.0:
+        return value * 255.0
+    return value
+
+
+def expand_hex(digits: str) -> tuple[float, float, float]:
+    if len(digits) in (3, 4):
+        digits = "".join(ch * 2 for ch in digits[:3])
+    return (
+        int(digits[0:2], 16),
+        int(digits[2:4], 16),
+        int(digits[4:6], 16),
+    )
+
+
+def hue_only(hue: float, chroma: float) -> tuple[bool, float, float]:
+    # oklch/hwb expose hue directly. Chroma/whiteness gates out grays.
+    return (chroma > 0.02 and HUE_MIN <= (hue % 360.0) <= HUE_MAX), hue % 360.0, chroma
+
+
+def classify_function(name: str, body: str) -> tuple[bool, float, float] | None:
+    kind = name.lower()
+    comma_syntax = "," in body.split("/", 1)[0]
+    parts, _alpha = split_color_args(body)
+    try:
+        if kind in ("rgb", "rgba"):
+            if len(parts) < 3:
+                return None
+            red = channel_255(parts[0], comma_syntax)
+            green = channel_255(parts[1], comma_syntax)
+            blue = channel_255(parts[2], comma_syntax)
+            flagged, hue, sat = is_purple_rgb(red, green, blue)
+            return flagged, hue, sat
+        if kind in ("hsl", "hsla"):
+            if len(parts) < 3:
+                return None
+            hue = parse_hue(parts[0])
+            sat = parse_unit(parts[1])
+            return (MIN_SATURATION <= sat and HUE_MIN <= hue <= HUE_MAX), hue, sat
+        if kind == "hwb":
+            if len(parts) < 3:
+                return None
+            hue = parse_hue(parts[0])
+            white = parse_unit(parts[1])
+            black = parse_unit(parts[2])
+            # A near-gray HWB mix is not a purple paint chip.
+            chroma = max(0.0, 1.0 - white - black)
+            return hue_only(hue, chroma)
+        if kind == "oklch":
+            if len(parts) < 3:
+                return None
+            chroma = float(parts[1].rstrip("%"))
+            if parts[1].endswith("%"):
+                chroma = float(parts[1][:-1]) / 100.0
+            hue = parse_hue(parts[2])
+            return hue_only(hue, chroma)
+    except ValueError:
+        return None
+    return None
+
+
+def literals_in_text(text: str) -> list[tuple[int, int, str, float]]:
+    """Return purple literals as (line, column, snippet, hue), 1-based."""
+    hits: list[tuple[int, int, str, float]] = []
+
+    def locate(index: int) -> tuple[int, int]:
+        line = text.count("\n", 0, index) + 1
+        col = index - text.rfind("\n", 0, index)
+        return line, col
+
+    for match in HEX_RE.finditer(text):
+        prev = text[max(0, match.start() - 4) : match.start()].lower()
+        if prev.endswith("url("):
+            continue
+        red, green, blue = expand_hex(match.group(1))
+        flagged, hue, _sat = is_purple_rgb(red, green, blue)
+        if flagged:
+            line, col = locate(match.start())
+            hits.append((line, col, match.group(0), hue))
+
+    for match in FUNC_RE.finditer(text):
+        classified = classify_function(match.group(1), match.group(2))
+        if classified and classified[0]:
+            line, col = locate(match.start())
+            hits.append((line, col, match.group(0), classified[1]))
+
+    for match in NAMED_RE.finditer(text):
+        line, col = locate(match.start())
+        hits.append((line, col, match.group(0), float("nan")))
+
+    hits.sort(key=lambda item: (item[0], item[1], item[2]))
+    return hits
+
+
+def repo_root() -> str:
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+def iter_source_files(root: str) -> list[str]:
+    found: list[str] = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = sorted(name for name in dirnames if name not in SKIP_DIRS)
+        for name in sorted(filenames):
+            ext = os.path.splitext(name)[1].lower()
+            if ext not in SOURCE_EXTENSIONS:
+                continue
+            if name == "package-lock.json":
+                continue
+            found.append(os.path.join(dirpath, name))
+    return found
+
+
+def present_build_dirs(root: str) -> list[str]:
+    return [name for name in BUILD_DIRS if os.path.isdir(os.path.join(root, name))]
+
+
+def scan(root: str) -> tuple[list[str], list[str]]:
+    files = iter_source_files(root)
+    violations: list[str] = []
+    for path in files:
+        with open(path, "rb") as handle:
+            raw = handle.read()
+        if b"\0" in raw[:8192]:
+            continue
+        text = raw.decode("utf-8", errors="replace")
+        rel = os.path.relpath(path, root).replace(os.sep, "/")
+        for line, col, snippet, hue in literals_in_text(text):
+            hue_text = "named" if math.isnan(hue) else f"hue={hue:.1f}"
+            violations.append(f"{rel}:{line}:{col}: {snippet} ({hue_text})")
+    return files, violations
+
+
+def self_test() -> int:
+    expect_flag = [
+        "#5e3fff",
+        "#2a1a99",
+        "#efebff",
+        "#c8c0ff",
+        "#4733cc",
+        "#cbc4f5",
+        "rgba(94,63,255,.25)",
+        "rgba(168,157,255,.4)",
+        "hsl(270, 100%, 50%)",
+        "hsl(250 80% 40%)",
+        "hwb(280 0% 10%)",
+        "oklch(0.5 0.2 300)",
+        "purple",
+        "violet",
+        "indigo",
+        "rebeccapurple",
+        "blueviolet",
+    ]
+    expect_clear = [
+        "#fd6d01",
+        "#0b0b0c",
+        "#141416",
+        "#1b1b1e",
+        "#232327",
+        "#ffffff",
+        "#e4e4e8",
+        "#b4b4bb",
+        "#9e9e9e",
+        "#140700",
+        "#ffb27a",
+        "#ff8a7a",
+        "#7fd8a6",
+        "rgba(255,255,255,.10)",
+        "rgba(255,255,255,.14)",
+        "rgba(253,109,1,.13)",
+        "#0000ff",
+        "#eaf3ff",
+        "transparent",
+        "url(#device)",
+        "St #130",
+    ]
+    failures = []
+    for sample in expect_flag:
+        if not literals_in_text(sample):
+            failures.append(f"missed {sample}")
+    for sample in expect_clear:
+        found = literals_in_text(sample)
+        if found:
+            failures.append(f"false positive {sample}: {found}")
+    if failures:
+        print("\n".join(failures))
+        return 1
+    print(f"self-test ok ({len(expect_flag)} flagged, {len(expect_clear)} clear)")
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "root",
+        nargs="?",
+        default=repo_root(),
+        help="repository root to scan (default: parent of this script)",
+    )
+    parser.add_argument("--self-test", action="store_true")
+    args = parser.parse_args(argv)
+    if args.self_test:
+        return self_test()
+
+    root = os.path.abspath(args.root)
+    files, violations = scan(root)
+    build_dirs = present_build_dirs(root)
+    rels = [os.path.relpath(path, root).replace(os.sep, "/") for path in files]
+    print(f"source files: {len(rels)}")
+    for rel in rels:
+        print(f"  {rel}")
+    if build_dirs:
+        print("built output: " + ", ".join(build_dirs))
+    else:
+        print(
+            "built output: repository root "
+            "(no dist, build, out, _site, public, or site directory; "
+            "the static page is the publishable output)"
+        )
+    if violations:
+        print(f"violations: {len(violations)}")
+        for item in violations:
+            print(item)
+        return 1
+    print("violations: 0")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

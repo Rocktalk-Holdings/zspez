@@ -4,7 +4,7 @@ Facts live in `index.html`. This file only names the homes.
 
 | Fact | Home |
 |---|---|
-| Color tokens | `index.html` `:root` (~L8–L26) |
+| Color tokens | `index.html` `:root` (`--z-*`) |
 | Company name / address | footer `foot-meta` (~L853–L857) |
 | Public email | footer mailto (~L867) |
 | Method labels | `#services` cards (~L613–L639) |

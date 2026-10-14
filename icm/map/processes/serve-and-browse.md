@@ -17,7 +17,9 @@ A host or `file:` URL returns `index.html` (and `assets/` if `src` resolves). Th
 
 ## Why this shape
 
-There is no router, no `package.json`, and no documented production URL in-repo. Deploy is "serve the root."
+There is no router, no `package.json`, and no host file in the repo (no Actions workflow, CNAME, Wrangler, Netlify, or Vercel config). Deploy is "serve the root."
+
+GitHub Pages is turned on for this repo: legacy build, branch `main`, path `/`, no custom domain. The published URL is `https://rocktalk-holdings.github.io/zspez/`. A push to `main` is what updates that site. `zspez.ai` is a different product site; its color tokens are the ones this page uses, and it is not this repo's host.
 
 ## Steps
 
